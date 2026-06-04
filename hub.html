@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="es" translate="no">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="google" content="notranslate">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="color-scheme" content="dark">
+  <meta name="darkreader-lock">
+
+  <!-- PWA -->
+  <link rel="manifest" href="manifest.webmanifest">
+  <meta name="theme-color" content="#0F172A">
+  <meta name="application-name" content="Hub EM">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Hub EM">
+
+  <title>Hub Electronics México</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <style>
+    :root {
+      --primary: #3B82F6;
+      --primary-dark: #2563EB;
+      --secondary: #06B6D4;
+      --success: #10B981;
+      --warning: #F59E0B;
+      --danger: #EF4444;
+      --bg-primary: #0F172A;
+      --bg-secondary: #1E293B;
+      --bg-tertiary: #334155;
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --border-color: #334155;
+      --card-bg: rgba(30, 41, 59, 0.55);
+      --card-border: rgba(59, 130, 246, 0.25);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    html, body {
+      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+      background: linear-gradient(135deg, #0B1426 0%, #0F172A 50%, #1E293B 100%);
+      background-attachment: fixed;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ━━━━━━ PARTÍCULAS DE FONDO ━━━━━━ */
+    #particles {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 0;
+      overflow: hidden;
+    }
+    .particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      background: rgba(59, 130, 246, 0.6);
+      border-radius: 50%;
+      box-shadow: 0 0 8px rgba(59, 130, 246, 0.8);
+      animation: floatUp linear infinite;
+    }
+    @keyframes floatUp {
+      0%   { transform: translateY(100vh) scale(0); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 1; }
+      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+    }
+
+    /* ━━━━━━ TOP BAR ━━━━━━ */
+    .topbar {
+      position: relative;
+      z-index: 5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 18px 28px;
+      background: rgba(15, 23, 42, 0.7);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+    }
+    .topbar-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .topbar-logo {
+      width: 38px; height: 38px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #60A5FA, #2563EB);
+      display: flex; align-items: center; justify-content: center;
+      color: white; font-weight: 700; font-size: 20px;
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+      font-family: 'Helvetica Neue', sans-serif;
+    }
+    .topbar-text h1 {
+      font-size: 16px;
+      font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.5px;
+    }
+    .topbar-text p {
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+    .topbar-user {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+    .live-dot {
+      width: 8px; height: 8px;
+      background: var(--success);
+      border-radius: 50%;
+      box-shadow: 0 0 8px var(--success);
+      animation: pulse 2s ease-in-out infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50%      { opacity: 0.6; transform: scale(1.3); }
+    }
+
+    /* ━━━━━━ HUB CONTAINER ━━━━━━ */
+    .hub {
+      position: relative;
+      z-index: 2;
+      min-height: calc(100vh - 76px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 40px 20px;
+    }
+
+    /* ━━━━━━ COMPOSICIÓN RADIAL (DESKTOP) ━━━━━━ */
+    .radial {
+      position: relative;
+      width: min(820px, 90vw);
+      height: min(820px, 90vw);
+      max-height: 85vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Anillos orbitales */
+    .ring {
+      position: absolute;
+      border-radius: 50%;
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      pointer-events: none;
+      animation: rotate 60s linear infinite;
+    }
+    .ring-outer {
+      width: 100%; height: 100%;
+      box-shadow: inset 0 0 80px rgba(59, 130, 246, 0.08);
+    }
+    .ring-middle {
+      width: 72%; height: 72%;
+      border-color: rgba(59, 130, 246, 0.25);
+      animation-direction: reverse;
+      animation-duration: 45s;
+    }
+    .ring-inner {
+      width: 44%; height: 44%;
+      border-color: rgba(59, 130, 246, 0.15);
+      animation-duration: 30s;
+    }
+    @keyframes rotate {
+      from { transform: rotate(0deg); }
+      to   { transform: rotate(360deg); }
+    }
+
+    /* Punto que orbita en el anillo medio */
+    .orbit-dot {
+      position: absolute;
+      width: 100%; height: 100%;
+      animation: rotate 25s linear infinite;
+      pointer-events: none;
+    }
+    .orbit-dot::before {
+      content: '';
+      position: absolute;
+      top: 14%; left: 50%;
+      width: 6px; height: 6px;
+      background: #60A5FA;
+      border-radius: 50%;
+      box-shadow: 0 0 12px #60A5FA, 0 0 24px rgba(96, 165, 250, 0.6);
+      transform: translateX(-50%);
+    }
+
+    /* Logo central */
+    .center-logo {
+      position: relative;
+      z-index: 10;
+      width: 130px; height: 130px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
+      display: flex; align-items: center; justify-content: center;
+      box-shadow:
+        0 0 40px rgba(59, 130, 246, 0.6),
+        0 0 80px rgba(59, 130, 246, 0.3),
+        inset 0 2px 0 rgba(255, 255, 255, 0.3);
+      animation: floatLogo 6s ease-in-out infinite;
+    }
+    .center-logo::after {
+      content: '';
+      position: absolute;
+      inset: -8px;
+      border-radius: 50%;
+      border: 2px solid rgba(96, 165, 250, 0.4);
+      animation: pulseRing 3s ease-out infinite;
+    }
+    @keyframes pulseRing {
+      0%   { transform: scale(1);   opacity: 0.8; }
+      100% { transform: scale(1.5); opacity: 0;   }
+    }
+    @keyframes floatLogo {
+      0%, 100% { transform: translateY(0); }
+      50%      { transform: translateY(-8px); }
+    }
+    .center-logo span {
+      font-size: 72px;
+      font-weight: 300;
+      color: white;
+      font-family: 'Helvetica Neue', sans-serif;
+      line-height: 1;
+      letter-spacing: -2px;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    /* ━━━━━━ TARJETAS DE MÓDULO (POSICIONAMIENTO RADIAL) ━━━━━━ */
+    .module-card {
+      position: absolute;
+      width: 165px;
+      padding: 18px 14px;
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      text-decoration: none;
+      color: var(--text-primary);
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.35s cubic-bezier(0.34, 1.56, 0.64, 1),
+                  border-color 0.3s, box-shadow 0.3s, background 0.3s;
+      opacity: 0;
+      animation: cardIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translate(-50%, -50%) scale(0.6); }
+      to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+    }
+
+    /* Posiciones tipo reloj — desktop */
+    .card-1 { top:   8%; left: 50%; animation-delay: 0.1s; }  /* 12 */
+    .card-2 { top:  28%; left: 90%; animation-delay: 0.2s; }  /*  2 */
+    .card-3 { top:  72%; left: 90%; animation-delay: 0.3s; }  /*  4 */
+    .card-4 { top:  92%; left: 50%; animation-delay: 0.4s; }  /*  6 */
+    .card-5 { top:  72%; left: 10%; animation-delay: 0.5s; }  /*  8 */
+    .card-6 { top:  28%; left: 10%; animation-delay: 0.6s; }  /* 10 */
+
+    .module-card:hover {
+      transform: translate(-50%, -50%) scale(1.06) !important;
+      border-color: rgba(59, 130, 246, 0.7);
+      background: rgba(30, 41, 59, 0.85);
+      box-shadow:
+        0 12px 32px rgba(0, 0, 0, 0.4),
+        0 0 24px rgba(59, 130, 246, 0.35);
+    }
+    .module-card:active {
+      transform: translate(-50%, -50%) scale(1.02) !important;
+    }
+
+    .module-icon {
+      width: 48px; height: 48px;
+      margin: 0 auto 10px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(6, 182, 212, 0.1));
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px;
+      color: #60A5FA;
+      transition: all 0.3s;
+    }
+    .module-card:hover .module-icon {
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.4), rgba(6, 182, 212, 0.25));
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.5);
+      transform: rotate(-8deg) scale(1.05);
+    }
+
+    .module-title {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+      letter-spacing: 0.3px;
+    }
+    .module-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.4;
+    }
+
+    /* Colores acento por módulo */
+    .card-1 .module-icon { color: #F59E0B; border-color: rgba(245, 158, 11, 0.35); }
+    .card-2 .module-icon { color: #06B6D4; border-color: rgba(6, 182, 212, 0.35); }
+    .card-3 .module-icon { color: #10B981; border-color: rgba(16, 185, 129, 0.35); }
+    .card-4 .module-icon { color: #A78BFA; border-color: rgba(167, 139, 250, 0.35); }
+    .card-5 .module-icon { color: #F472B6; border-color: rgba(244, 114, 182, 0.35); }
+    .card-6 .module-icon { color: #60A5FA; border-color: rgba(96, 165, 250, 0.35); }
+
+    /* ━━━━━━ RESPONSIVE — MÓVIL Y TABLET ━━━━━━ */
+    @media (max-width: 900px) {
+      .hub { padding: 24px 16px; }
+      .radial {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 28px;
+        width: 100%;
+        height: auto;
+        max-height: none;
+      }
+      .ring, .orbit-dot { display: none; }
+      .center-logo {
+        width: 100px; height: 100px;
+        margin-top: 8px;
+      }
+      .center-logo span { font-size: 56px; }
+
+      .module-card {
+        position: relative;
+        top: auto; left: auto;
+        width: 100%;
+        max-width: none;
+        animation: cardInMobile 0.5s ease-out forwards;
+      }
+      @keyframes cardInMobile {
+        from { opacity: 0; transform: translateY(20px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .module-card:hover {
+        transform: translateY(-3px) !important;
+      }
+      .module-card:active {
+        transform: translateY(0) !important;
+      }
+
+      /* Grid 2 columnas en móvil */
+      .modules-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 14px;
+        width: 100%;
+      }
+    }
+
+    /* En desktop la grid no aplica — las tarjetas usan posicionamiento absoluto */
+    @media (min-width: 901px) {
+      .modules-grid {
+        display: contents;
+      }
+    }
+
+    /* ━━━━━━ FOOTER ━━━━━━ */
+    .footer {
+      position: relative;
+      z-index: 2;
+      text-align: center;
+      padding: 16px;
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+  </style>
+</head>
+<body class="notranslate" translate="no">
+
+  <div id="particles"></div>
+
+  <!-- TOP BAR -->
+  <header class="topbar">
+    <div class="topbar-brand">
+      <div class="topbar-logo">e</div>
+      <div class="topbar-text">
+        <h1>Electronics México</h1>
+        <p>Hub de Empleados</p>
+      </div>
+    </div>
+    <div class="topbar-user">
+      <div class="live-dot"></div>
+      <span id="live-clock">--:--</span>
+    </div>
+  </header>
+
+  <!-- HUB PRINCIPAL -->
+  <main class="hub">
+    <div class="radial">
+
+      <!-- Anillos orbitales (solo desktop) -->
+      <div class="ring ring-outer"></div>
+      <div class="ring ring-middle"></div>
+      <div class="ring ring-inner"></div>
+      <div class="orbit-dot"></div>
+
+      <!-- Logo central -->
+      <div class="center-logo">
+        <span>e</span>
+      </div>
+
+      <!-- Tarjetas de módulos -->
+      <div class="modules-grid">
+
+        <a href="#" data-url="https://TU-LINK-GYM-AQUI" class="module-card card-1" onclick="abrirModulo(event, this)">
+          <div class="module-icon"><i class="fas fa-dumbbell"></i></div>
+          <div class="module-title">Checador Gym</div>
+          <div class="module-desc">Registra tu asistencia diaria</div>
+        </a>
+
+        <a href="#" data-url="https://TU-LINK-SUMINISTROS-AQUI" class="module-card card-2" onclick="abrirModulo(event, this)">
+          <div class="module-icon"><i class="fas fa-boxes-stacked"></i></div>
+          <div class="module-title">Suministros</div>
+          <div class="module-desc">Pide materiales e insumos</div>
+        </a>
+
+        <a href="#" data-url="https://TU-LINK-VENTAS-AQUI" class="module-card card-3" onclick="abrirModulo(event, this)">
+          <div class="module-icon"><i class="fas fa-tag"></i></div>
+          <div class="module-title">Ventas Internas</div>
+          <div class="module-desc">Productos para empleados</div>
+        </a>
+
+        <a href="#" data-url="https://TU-LINK-VACACIONES-AQUI" class="module-card card-4" onclick="abrirModulo(event, this)">
+          <div class="module-icon"><i class="fas fa-umbrella-beach"></i></div>
+          <div class="module-title">Vacaciones</div>
+          <div class="module-desc">Solicita días y permisos</div>
+        </a>
+
+        <a href="#" data-url="https://TU-LINK-PRESTAMOS-AQUI" class="module-card card-5" onclick="abrirModulo(event, this)">
+          <div class="module-icon"><i class="fas fa-hand-holding-dollar"></i></div>
+          <div class="module-title">Préstamos</div>
+          <div class="module-desc">Adelantos y préstamos internos</div>
+        </a>
+
+        <a href="#" data-url="https://TU-LINK-BOT-AQUI" class="module-card card-6" onclick="abrirModulo(event, this)">
+          <div class="module-icon"><i class="fas fa-robot"></i></div>
+          <div class="module-title">Bot EM</div>
+          <div class="module-desc">Chatbot y soporte interno</div>
+        </a>
+
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    Electronics México · Hub Interno v1.0
+  </footer>
+
+  <script>
+    // ━━━ PARTÍCULAS ━━━
+    (function generarParticulas() {
+      const cont = document.getElementById('particles');
+      const cantidad = window.innerWidth < 768 ? 15 : 30;
+      for (let i = 0; i < cantidad; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.animationDuration = (15 + Math.random() * 20) + 's';
+        p.style.animationDelay = (Math.random() * 20) + 's';
+        p.style.opacity = (0.3 + Math.random() * 0.5);
+        cont.appendChild(p);
+      }
+    })();
+
+    // ━━━ RELOJ EN VIVO ━━━
+    function actualizarReloj() {
+      const ahora = new Date();
+      const hh = String(ahora.getHours()).padStart(2, '0');
+      const mm = String(ahora.getMinutes()).padStart(2, '0');
+      const ss = String(ahora.getSeconds()).padStart(2, '0');
+      document.getElementById('live-clock').textContent = `${hh}:${mm}:${ss}`;
+    }
+    actualizarReloj();
+    setInterval(actualizarReloj, 1000);
+
+    // ━━━ ABRIR MÓDULO ━━━
+    function abrirModulo(e, el) {
+      e.preventDefault();
+      const url = el.getAttribute('data-url');
+      if (!url || url.includes('TU-LINK')) {
+        alert('⚠️ Aún no se ha configurado el link para este módulo.\n\nEdita el atributo data-url en hub.html');
+        return;
+      }
+      window.open(url, '_blank', 'noopener');
+    }
+  </script>
+
+</body>
+</html>
