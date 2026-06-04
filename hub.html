@@ -310,6 +310,10 @@
       color: var(--text-secondary);
       line-height: 1.4;
     }
+    .module-text {
+      /* En desktop hereda el text-align: center del padre */
+      width: 100%;
+    }
 
     /* Colores acento por módulo */
     .card-1 .module-icon { color: #F59E0B; border-color: rgba(245, 158, 11, 0.35); }
@@ -320,56 +324,135 @@
     .card-6 .module-icon { color: #60A5FA; border-color: rgba(96, 165, 250, 0.35); }
 
     /* ━━━━━━ RESPONSIVE — MÓVIL Y TABLET ━━━━━━ */
+    /* En desktop la grid no aplica — las tarjetas usan posicionamiento absoluto */
+    @media (min-width: 901px) {
+      .modules-grid { display: contents; }
+      .mobile-greeting { display: none; }
+      .module-chevron { display: none; }
+    }
+
     @media (max-width: 900px) {
-      .hub { padding: 24px 16px; }
+      .hub {
+        padding: 20px 16px 32px;
+        align-items: flex-start;
+      }
       .radial {
         display: flex;
         flex-direction: column;
-        align-items: center;
-        gap: 28px;
+        align-items: stretch;
+        gap: 22px;
         width: 100%;
         height: auto;
         max-height: none;
       }
+
+      /* Ocultar anillos y dot orbital en móvil — quitan espacio */
       .ring, .orbit-dot { display: none; }
+
+      /* Logo central — más compacto + saludo debajo */
       .center-logo {
-        width: 100px; height: 100px;
-        margin-top: 8px;
+        width: 88px; height: 88px;
+        margin: 4px auto 0;
+        align-self: center;
       }
-      .center-logo span { font-size: 56px; }
+      .center-logo span { font-size: 50px; }
+
+      .mobile-greeting {
+        text-align: center;
+        margin-top: -8px;
+        margin-bottom: 4px;
+      }
+      .mobile-greeting h2 {
+        font-size: 20px;
+        font-weight: 700;
+        color: var(--text-primary);
+        letter-spacing: 0.3px;
+      }
+      .mobile-greeting p {
+        font-size: 13px;
+        color: var(--text-secondary);
+        margin-top: 4px;
+        letter-spacing: 0.5px;
+      }
+
+      /* Grid lineal — UNA columna, tarjetas horizontales */
+      .modules-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+        width: 100%;
+      }
 
       .module-card {
         position: relative;
         top: auto; left: auto;
         width: 100%;
         max-width: none;
-        animation: cardInMobile 0.5s ease-out forwards;
+        padding: 14px 16px;
+        display: flex;
+        align-items: center;
+        gap: 14px;
+        text-align: left;
+        border-radius: 14px;
+        animation: cardInMobile 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       }
       @keyframes cardInMobile {
-        from { opacity: 0; transform: translateY(20px); }
-        to   { opacity: 1; transform: translateY(0); }
+        from { opacity: 0; transform: translateX(-12px); }
+        to   { opacity: 1; transform: translateX(0); }
       }
-      .module-card:hover {
-        transform: translateY(-3px) !important;
-      }
+      .module-card:hover,
       .module-card:active {
-        transform: translateY(0) !important;
+        transform: translateX(4px) !important;
+        border-color: rgba(59, 130, 246, 0.6);
       }
 
-      /* Grid 2 columnas en móvil */
-      .modules-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 14px;
-        width: 100%;
+      .module-icon {
+        margin: 0;
+        flex-shrink: 0;
+        width: 52px; height: 52px;
+        font-size: 22px;
+        border-radius: 14px;
+      }
+      .module-card:hover .module-icon {
+        transform: none;
+      }
+
+      .module-text {
+        flex: 1;
+        min-width: 0;
+      }
+      .module-title {
+        font-size: 15px;
+        margin-bottom: 2px;
+      }
+      .module-desc {
+        font-size: 12px;
+        line-height: 1.35;
+      }
+
+      .module-chevron {
+        flex-shrink: 0;
+        color: var(--text-secondary);
+        font-size: 14px;
+        opacity: 0.5;
+        transition: transform 0.3s, opacity 0.3s, color 0.3s;
+      }
+      .module-card:hover .module-chevron,
+      .module-card:active .module-chevron {
+        transform: translateX(4px);
+        opacity: 1;
+        color: var(--primary);
       }
     }
 
-    /* En desktop la grid no aplica — las tarjetas usan posicionamiento absoluto */
-    @media (min-width: 901px) {
-      .modules-grid {
-        display: contents;
-      }
+    /* Móviles muy pequeños */
+    @media (max-width: 380px) {
+      .topbar { padding: 14px 16px; }
+      .topbar-text h1 { font-size: 14px; }
+      .module-card { padding: 12px 14px; gap: 12px; }
+      .module-icon { width: 46px; height: 46px; font-size: 20px; }
+      .module-title { font-size: 14px; }
+      .module-desc { font-size: 11px; }
     }
 
     /* ━━━━━━ FOOTER ━━━━━━ */
@@ -419,43 +502,67 @@
         <span>e</span>
       </div>
 
+      <!-- Saludo solo visible en móvil -->
+      <div class="mobile-greeting">
+        <h2>¿Qué necesitas hoy?</h2>
+        <p>Selecciona una opción</p>
+      </div>
+
       <!-- Tarjetas de módulos -->
       <div class="modules-grid">
 
         <a href="#" data-url="https://TU-LINK-GYM-AQUI" class="module-card card-1" onclick="abrirModulo(event, this)">
           <div class="module-icon"><i class="fas fa-dumbbell"></i></div>
-          <div class="module-title">Checador Gym</div>
-          <div class="module-desc">Registra tu asistencia diaria</div>
+          <div class="module-text">
+            <div class="module-title">Checador Gym</div>
+            <div class="module-desc">Registra tu asistencia diaria</div>
+          </div>
+          <i class="fas fa-chevron-right module-chevron"></i>
         </a>
 
         <a href="#" data-url="https://TU-LINK-SUMINISTROS-AQUI" class="module-card card-2" onclick="abrirModulo(event, this)">
           <div class="module-icon"><i class="fas fa-boxes-stacked"></i></div>
-          <div class="module-title">Suministros</div>
-          <div class="module-desc">Pide materiales e insumos</div>
+          <div class="module-text">
+            <div class="module-title">Suministros</div>
+            <div class="module-desc">Pide materiales e insumos</div>
+          </div>
+          <i class="fas fa-chevron-right module-chevron"></i>
         </a>
 
         <a href="#" data-url="https://TU-LINK-VENTAS-AQUI" class="module-card card-3" onclick="abrirModulo(event, this)">
           <div class="module-icon"><i class="fas fa-tag"></i></div>
-          <div class="module-title">Ventas Internas</div>
-          <div class="module-desc">Productos para empleados</div>
+          <div class="module-text">
+            <div class="module-title">Ventas Internas</div>
+            <div class="module-desc">Productos para empleados</div>
+          </div>
+          <i class="fas fa-chevron-right module-chevron"></i>
         </a>
 
         <a href="#" data-url="https://TU-LINK-VACACIONES-AQUI" class="module-card card-4" onclick="abrirModulo(event, this)">
           <div class="module-icon"><i class="fas fa-umbrella-beach"></i></div>
-          <div class="module-title">Vacaciones</div>
-          <div class="module-desc">Solicita días y permisos</div>
+          <div class="module-text">
+            <div class="module-title">Vacaciones</div>
+            <div class="module-desc">Solicita días y permisos</div>
+          </div>
+          <i class="fas fa-chevron-right module-chevron"></i>
         </a>
 
         <a href="#" data-url="https://TU-LINK-PRESTAMOS-AQUI" class="module-card card-5" onclick="abrirModulo(event, this)">
           <div class="module-icon"><i class="fas fa-hand-holding-dollar"></i></div>
-          <div class="module-title">Préstamos</div>
-          <div class="module-desc">Adelantos y préstamos internos</div>
+          <div class="module-text">
+            <div class="module-title">Préstamos</div>
+            <div class="module-desc">Adelantos y préstamos internos</div>
+          </div>
+          <i class="fas fa-chevron-right module-chevron"></i>
         </a>
 
         <a href="#" data-url="https://TU-LINK-BOT-AQUI" class="module-card card-6" onclick="abrirModulo(event, this)">
           <div class="module-icon"><i class="fas fa-robot"></i></div>
-          <div class="module-title">Bot EM</div>
-          <div class="module-desc">Chatbot y soporte interno</div>
+          <div class="module-text">
+            <div class="module-title">Bot EM</div>
+            <div class="module-desc">Chatbot y soporte interno</div>
+          </div>
+          <i class="fas fa-chevron-right module-chevron"></i>
         </a>
 
       </div>
