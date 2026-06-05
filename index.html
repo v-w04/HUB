@@ -9,13 +9,13 @@
 
   <link rel="manifest" href="manifest.webmanifest">
   <meta name="theme-color" content="#0F172A">
-  <meta name="application-name" content="Hub EM">
+  <meta name="application-name" content="Hub RH">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <meta name="apple-mobile-web-app-title" content="Hub EM">
+  <meta name="apple-mobile-web-app-title" content="Hub RH">
 
-  <title>Hub de Empleados — Electronics México</title>
+  <title>Hub de Recursos Humanos — Electronics México</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
 
   <style>
@@ -27,7 +27,10 @@
       --bg-secondary: #1E293B;
       --text-primary: #F1F5F9;
       --text-secondary: #94A3B8;
+      --text-tertiary: #64748B;
       --slice-fill: rgba(20, 32, 58, 0.85);
+      --card-bg: rgba(20, 32, 58, 0.6);
+      --card-border: rgba(96, 165, 250, 0.18);
       --ok: #10B981;
       --warn: #F59E0B;
     }
@@ -63,7 +66,7 @@
     }
 
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    /* ━━━ TOPBAR (ahora tiene el título completo) ━━ */
+    /* ━━━ TOPBAR ━━━ */
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     .topbar {
       position: relative; z-index: 5;
@@ -89,103 +92,51 @@
       overflow: hidden;
       flex-shrink: 0;
     }
-    .topbar-logo img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    .topbar-logo .fallback {
-      color: white;
-      font-weight: 300;
-      font-size: 24px;
-      letter-spacing: -2px;
-      line-height: 1;
-    }
+    .topbar-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .topbar-logo .fallback { color: white; font-weight: 300; font-size: 24px; letter-spacing: -2px; line-height: 1; }
     .topbar-text h1 {
-      font-size: 13px;
-      font-weight: 700;
-      letter-spacing: 2.5px;
-      color: var(--text-primary);
-      text-transform: uppercase;
-      line-height: 1.1;
+      font-size: 13px; font-weight: 700; letter-spacing: 2.5px;
+      color: var(--text-primary); text-transform: uppercase; line-height: 1.1;
     }
     .topbar-text p {
-      font-size: 9px;
-      color: #60A5FA;
-      letter-spacing: 3px;
-      text-transform: uppercase;
-      margin-top: 2px;
+      font-size: 9px; color: #60A5FA; letter-spacing: 3px;
+      text-transform: uppercase; margin-top: 2px;
     }
-
-    /* Centro del topbar — Título principal */
-    .topbar-title {
-      justify-self: center;
-      text-align: center;
-    }
+    .topbar-title { justify-self: center; text-align: center; }
     .topbar-title h2 {
-      font-size: 26px;
-      font-weight: 700;
-      letter-spacing: 0.3px;
+      font-size: 26px; font-weight: 700; letter-spacing: 0.3px;
       background: linear-gradient(135deg, #F1F5F9 0%, #93C5FD 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      line-height: 1.1;
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text; line-height: 1.1;
     }
     .topbar-title p {
-      font-size: 11px;
-      color: var(--text-secondary);
-      letter-spacing: 0.8px;
-      margin-top: 2px;
+      font-size: 11px; color: var(--text-secondary);
+      letter-spacing: 0.8px; margin-top: 2px;
     }
-
-    /* Acciones derecha */
-    .topbar-actions {
-      display: flex; align-items: center; gap: 10px;
-      justify-self: end;
-    }
+    .topbar-actions { display: flex; align-items: center; gap: 10px; justify-self: end; }
     .sheet-status {
       display: flex; align-items: center; gap: 8px;
-      padding: 6px 12px;
-      border-radius: 999px;
-      font-size: 11px;
-      font-weight: 600;
-      letter-spacing: 0.3px;
-      border: 1px solid transparent;
+      padding: 6px 12px; border-radius: 999px;
+      font-size: 11px; font-weight: 600;
+      letter-spacing: 0.3px; border: 1px solid transparent;
       transition: all 0.3s;
     }
-    .sheet-status .dot {
-      width: 8px; height: 8px;
-      border-radius: 50%;
-      flex-shrink: 0;
-    }
+    .sheet-status .dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
     .sheet-status.loading {
       background: rgba(96, 165, 250, 0.12);
-      border-color: rgba(96, 165, 250, 0.25);
-      color: #93C5FD;
+      border-color: rgba(96, 165, 250, 0.25); color: #93C5FD;
     }
-    .sheet-status.loading .dot {
-      background: #60A5FA;
-      animation: pulseDot 1.2s ease-in-out infinite;
-    }
+    .sheet-status.loading .dot { background: #60A5FA; animation: pulseDot 1.2s ease-in-out infinite; }
     .sheet-status.ok {
       background: rgba(16, 185, 129, 0.12);
-      border-color: rgba(16, 185, 129, 0.3);
-      color: #6EE7B7;
+      border-color: rgba(16, 185, 129, 0.3); color: #6EE7B7;
     }
-    .sheet-status.ok .dot {
-      background: var(--ok);
-      box-shadow: 0 0 6px var(--ok);
-    }
+    .sheet-status.ok .dot { background: var(--ok); box-shadow: 0 0 6px var(--ok); }
     .sheet-status.warn {
       background: rgba(245, 158, 11, 0.12);
-      border-color: rgba(245, 158, 11, 0.35);
-      color: #FCD34D;
+      border-color: rgba(245, 158, 11, 0.35); color: #FCD34D;
     }
-    .sheet-status.warn .dot {
-      background: var(--warn);
-      box-shadow: 0 0 6px var(--warn);
-    }
+    .sheet-status.warn .dot { background: var(--warn); box-shadow: 0 0 6px var(--warn); }
     @keyframes pulseDot {
       0%, 100% { opacity: 1; transform: scale(1); }
       50%      { opacity: 0.5; transform: scale(1.3); }
@@ -207,22 +158,336 @@
       transform: translateY(-1px);
     }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    /* ━━━ HUB principal — ocupa todo el alto ━━━━ */
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    .hub {
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━ APP GRID — 3 columnas en desktop      ━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    .app-grid {
       position: relative; z-index: 2;
-      display: flex; align-items: center; justify-content: center;
-      padding: 24px 16px 32px;
-      min-height: calc(100vh - 80px);
+      display: grid;
+      grid-template-columns: 290px 1fr 290px;
+      gap: 22px;
+      max-width: 1700px;
+      margin: 0 auto;
+      padding: 22px;
+      align-items: start;
     }
 
-    /* ━━━ Versión Desktop: Dial / Pie ━━━ */
+    /* ━━━ Columna central — Hub ━━━ */
+    .center-area {
+      display: flex; flex-direction: column;
+      align-items: center;
+      gap: 20px;
+      position: relative;
+      z-index: 2;
+    }
+    .hub {
+      width: 100%;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* ━━━ Sidebar ━━━ */
+    aside.sidebar {
+      display: flex; flex-direction: column; gap: 16px;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ━━━ Card base ━━━ */
+    .card {
+      background: var(--card-bg);
+      backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      transition: border-color 0.3s, transform 0.3s;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: cardEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+    @keyframes cardEnter {
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .card:hover { border-color: rgba(96, 165, 250, 0.4); }
+    .card-header {
+      display: flex; align-items: center; gap: 10px;
+      margin-bottom: 14px;
+    }
+    .card-header .icon {
+      width: 30px; height: 30px;
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 14px;
+    }
+    .card-header h3 {
+      font-size: 14px; font-weight: 700;
+      color: var(--text-primary);
+      letter-spacing: 0.4px;
+      flex: 1;
+    }
+    .card-header .badge {
+      background: #EF4444;
+      color: white;
+      font-size: 10px;
+      font-weight: 700;
+      padding: 2px 8px;
+      border-radius: 10px;
+      min-width: 22px;
+      text-align: center;
+    }
+    .card-header .more {
+      color: var(--text-tertiary);
+      cursor: pointer;
+      font-size: 14px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      transition: all 0.2s;
+    }
+    .card-header .more:hover { color: var(--text-primary); background: rgba(96, 165, 250, 0.1); }
+    .card-footer-link {
+      display: flex; align-items: center; justify-content: center; gap: 6px;
+      margin-top: 14px;
+      padding-top: 12px;
+      border-top: 1px solid rgba(96, 165, 250, 0.12);
+      font-size: 12px;
+      color: #60A5FA;
+      cursor: pointer;
+      transition: gap 0.2s;
+    }
+    .card-footer-link:hover { gap: 10px; color: #93C5FD; }
+
+    /* ━━━ Calendario items ━━━ */
+    .cal-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0;
+    }
+    .cal-item + .cal-item { border-top: 1px solid rgba(96, 165, 250, 0.08); }
+    .cal-date {
+      flex-shrink: 0;
+      width: 44px; padding: 6px 4px;
+      border-radius: 8px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      text-align: center;
+      line-height: 1.05;
+    }
+    .cal-date .d {
+      font-size: 16px; font-weight: 700; color: #93C5FD;
+    }
+    .cal-date .m {
+      font-size: 9px; font-weight: 600; color: #60A5FA;
+      letter-spacing: 0.8px;
+    }
+    .cal-info .t {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .cal-info .h {
+      font-size: 10px; color: var(--text-secondary);
+      margin-top: 2px;
+    }
+
+    /* ━━━ Anuncios items ━━━ */
+    .anuncio-item {
+      display: flex; align-items: flex-start; gap: 10px;
+      padding: 8px 0;
+      position: relative;
+      cursor: pointer;
+      transition: background 0.2s;
+      border-radius: 8px;
+      padding: 8px;
+      margin: 0 -8px;
+    }
+    .anuncio-item:hover { background: rgba(96, 165, 250, 0.05); }
+    .anuncio-item .ico {
+      flex-shrink: 0;
+      width: 26px; height: 26px;
+      border-radius: 7px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      background: rgba(96, 165, 250, 0.15);
+    }
+    .anuncio-item .body { flex: 1; min-width: 0; }
+    .anuncio-item .t {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .anuncio-item .s {
+      font-size: 10px; color: var(--text-secondary);
+      margin-top: 2px;
+      line-height: 1.3;
+    }
+    .anuncio-item .dot-unread {
+      position: absolute;
+      top: 12px; right: 8px;
+      width: 7px; height: 7px;
+      background: #EF4444;
+      border-radius: 50%;
+      box-shadow: 0 0 6px #EF4444;
+    }
+
+    /* ━━━ Accesos rápidos ━━━ */
+    .acceso-item {
+      display: flex; align-items: center; gap: 10px;
+      padding: 9px 6px;
+      cursor: pointer;
+      border-radius: 8px;
+      transition: background 0.2s;
+      margin: 0 -6px;
+    }
+    .acceso-item:hover { background: rgba(96, 165, 250, 0.08); }
+    .acceso-item .ico {
+      width: 22px; text-align: center;
+      color: #60A5FA;
+      font-size: 13px;
+    }
+    .acceso-item .t {
+      flex: 1;
+      font-size: 12px;
+      color: var(--text-primary);
+      font-weight: 500;
+    }
+    .acceso-item .chev {
+      color: var(--text-tertiary);
+      font-size: 11px;
+      transition: transform 0.2s, color 0.2s;
+    }
+    .acceso-item:hover .chev { color: #60A5FA; transform: translateX(3px); }
+
+    /* ━━━ Centro de soporte (card especial pequeño) ━━━ */
+    .soporte-card {
+      display: flex; align-items: center; gap: 14px;
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.18), rgba(6, 182, 212, 0.1));
+      border: 1px solid rgba(96, 165, 250, 0.3);
+      border-radius: 16px;
+      padding: 14px 16px;
+      cursor: pointer;
+      transition: transform 0.25s, border-color 0.25s;
+    }
+    .soporte-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(96, 165, 250, 0.6);
+    }
+    .soporte-card .ico {
+      width: 38px; height: 38px;
+      border-radius: 10px;
+      background: rgba(59, 130, 246, 0.25);
+      display: flex; align-items: center; justify-content: center;
+      color: #93C5FD;
+      font-size: 16px;
+      flex-shrink: 0;
+    }
+    .soporte-card .info .s {
+      font-size: 10px; color: var(--text-secondary);
+      letter-spacing: 0.3px;
+    }
+    .soporte-card .info .t {
+      font-size: 13px; font-weight: 700;
+      color: var(--text-primary);
+      margin-top: 2px;
+    }
+
+    /* ━━━ Novedades card (con imagen ilustrativa) ━━━ */
+    .novedades-content {
+      display: flex; flex-direction: column; gap: 12px;
+    }
+    .novedades-text {
+      font-size: 12px; color: var(--text-secondary);
+      line-height: 1.5;
+    }
+    .novedades-img {
+      width: 100%;
+      height: 110px;
+      border-radius: 10px;
+      background:
+        linear-gradient(135deg, rgba(59, 130, 246, 0.3), rgba(167, 139, 250, 0.2)),
+        linear-gradient(180deg, transparent 40%, rgba(15, 23, 42, 0.8));
+      border: 1px solid rgba(96, 165, 250, 0.2);
+      display: flex; align-items: center; justify-content: center;
+      position: relative;
+      overflow: hidden;
+    }
+    .novedades-img i {
+      font-size: 32px;
+      color: rgba(255, 255, 255, 0.25);
+    }
+    .novedades-img::after {
+      content: '';
+      position: absolute;
+      width: 200%; height: 200%;
+      top: -50%; left: -100%;
+      background: radial-gradient(circle at center, rgba(96, 165, 250, 0.15), transparent 50%);
+      animation: drift 10s linear infinite;
+    }
+    @keyframes drift {
+      to { transform: translateX(50%); }
+    }
+    .novedades-btn {
+      align-self: flex-start;
+      padding: 8px 16px;
+      background: linear-gradient(135deg, #3B82F6, #2563EB);
+      border: none;
+      border-radius: 8px;
+      color: white;
+      font-weight: 700;
+      font-size: 11px;
+      cursor: pointer;
+      letter-spacing: 0.5px;
+      transition: all 0.25s;
+    }
+    .novedades-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 14px rgba(59, 130, 246, 0.4);
+    }
+
+    /* ━━━ Cumpleaños ━━━ */
+    .cumple-item {
+      display: flex; align-items: center; gap: 12px;
+      padding: 8px 0;
+    }
+    .cumple-item + .cumple-item { border-top: 1px solid rgba(96, 165, 250, 0.08); }
+    .cumple-avatar {
+      flex-shrink: 0;
+      width: 34px; height: 34px;
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      color: white;
+      letter-spacing: 0.5px;
+      border: 2px solid rgba(96, 165, 250, 0.3);
+    }
+    .cumple-info { flex: 1; min-width: 0; }
+    .cumple-info .n {
+      font-size: 12px; font-weight: 600;
+      color: var(--text-primary);
+      line-height: 1.3;
+    }
+    .cumple-info .f {
+      font-size: 10px; color: var(--text-secondary);
+      margin-top: 2px;
+    }
+    .cumple-item .cake {
+      color: #F472B6;
+      font-size: 14px;
+    }
+    .card-header-action {
+      font-size: 11px;
+      color: #60A5FA;
+      cursor: pointer;
+      font-weight: 600;
+    }
+    .card-header-action:hover { color: #93C5FD; }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━ DIAL (centro) ━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     .dial-wrapper {
       position: relative;
-      width: min(780px, 92vw);
+      width: 100%;
+      max-width: 680px;
       aspect-ratio: 1;
-      max-height: calc(100vh - 120px);
     }
     .dial-svg {
       position: absolute; inset: 0;
@@ -246,10 +511,9 @@
     }
     .slice-cell:hover .slice-glow { opacity: 1; }
 
-    /* Card flotante sobre cada slice */
     .slice-content {
       position: absolute;
-      width: var(--card-w, 150px);
+      width: var(--card-w, 130px);
       transform: translate(-50%, -50%);
       text-align: center;
       pointer-events: none;
@@ -262,13 +526,13 @@
       to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
     .slice-icon {
-      width: 50px; height: 50px;
-      margin: 0 auto 8px;
-      border-radius: 13px;
+      width: 46px; height: 46px;
+      margin: 0 auto 7px;
+      border-radius: 12px;
       background: rgba(15, 23, 42, 0.55);
       border: 1px solid;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px;
+      font-size: 22px;
       transition: all 0.3s;
     }
     .slice-cell:hover .slice-icon {
@@ -277,21 +541,21 @@
       filter: brightness(1.2);
     }
     .slice-title {
-      font-size: 15px;
+      font-size: 13px;
       font-weight: 700;
       line-height: 1.15;
-      letter-spacing: 0.5px;
-      margin-bottom: 5px;
+      letter-spacing: 0.4px;
+      margin-bottom: 4px;
     }
     .slice-desc {
-      font-size: 12px;
+      font-size: 11px;
       line-height: 1.35;
       color: var(--text-secondary);
       padding: 0 4px;
     }
     .slice-chevron {
-      margin-top: 8px;
-      font-size: 12px;
+      margin-top: 6px;
+      font-size: 11px;
       color: rgba(96, 165, 250, 0.6);
       transition: transform 0.3s, color 0.3s;
     }
@@ -300,12 +564,11 @@
       transform: translateY(3px);
     }
 
-    /* Centro del dial — Logo grande */
     .dial-center {
       position: absolute;
       top: 50%; left: 50%;
       transform: translate(-50%, -50%);
-      width: 22%; height: 22%;
+      width: 23%; height: 23%;
       border-radius: 50%;
       background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
       box-shadow:
@@ -345,6 +608,41 @@
     @keyframes pulseRing {
       0%   { transform: scale(1);   opacity: 0.8; }
       100% { transform: scale(1.6); opacity: 0;   }
+    }
+
+    /* ━━━ Barra de búsqueda inferior ━━━ */
+    .search-bar {
+      width: 100%;
+      max-width: 560px;
+      display: flex; align-items: center; gap: 10px;
+      padding: 14px 20px;
+      background: rgba(20, 32, 58, 0.65);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      border-radius: 14px;
+      cursor: pointer;
+      transition: all 0.25s;
+    }
+    .search-bar:hover {
+      border-color: rgba(96, 165, 250, 0.55);
+      background: rgba(20, 32, 58, 0.8);
+    }
+    .search-bar i { color: #60A5FA; font-size: 16px; }
+    .search-bar .placeholder {
+      flex: 1;
+      color: var(--text-secondary);
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .search-bar .shortcut {
+      font-size: 10px;
+      font-weight: 700;
+      color: var(--text-tertiary);
+      padding: 3px 7px;
+      border-radius: 5px;
+      background: rgba(15, 23, 42, 0.6);
+      border: 1px solid rgba(96, 165, 250, 0.15);
+      letter-spacing: 0.5px;
     }
 
     /* ━━━ Loading / Empty ━━━ */
@@ -388,7 +686,7 @@
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     #toast i { color: #F59E0B; font-size: 18px; }
 
-    /* ━━━ Modal Acerca de ━━━ */
+    /* ━━━ Modal ━━━ */
     .modal-backdrop {
       position: fixed; inset: 0;
       background: rgba(0, 0, 0, 0.7);
@@ -405,57 +703,53 @@
       border: 1px solid rgba(96, 165, 250, 0.3);
       border-radius: 18px;
       padding: 28px;
-      max-width: 500px;
-      width: 100%;
+      max-width: 500px; width: 100%;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6), 0 0 40px rgba(59, 130, 246, 0.15);
       animation: modalIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
-      max-height: 85vh;
-      overflow-y: auto;
+      max-height: 85vh; overflow-y: auto;
     }
     @keyframes modalIn {
       from { opacity: 0; transform: scale(0.85) translateY(20px); }
       to   { opacity: 1; transform: scale(1) translateY(0); }
     }
     .modal h3 {
-      font-size: 20px;
-      margin-bottom: 12px;
+      font-size: 20px; margin-bottom: 12px;
       color: var(--text-primary);
       display: flex; align-items: center; gap: 10px;
     }
     .modal h3 i { color: #60A5FA; }
-    .modal p {
-      font-size: 13px;
-      color: var(--text-secondary);
-      line-height: 1.6;
-      margin-bottom: 12px;
-    }
+    .modal p { font-size: 13px; color: var(--text-secondary); line-height: 1.6; margin-bottom: 12px; }
     .modal-close {
-      width: 100%;
-      padding: 12px;
-      margin-top: 16px;
+      width: 100%; padding: 12px; margin-top: 16px;
       background: linear-gradient(135deg, #3B82F6, #2563EB);
-      border: none;
-      border-radius: 10px;
-      color: white;
-      font-weight: 700;
-      font-size: 13px;
-      cursor: pointer;
-      letter-spacing: 0.5px;
+      border: none; border-radius: 10px;
+      color: white; font-weight: 700; font-size: 13px;
+      cursor: pointer; letter-spacing: 0.5px;
       transition: all 0.25s;
     }
     .modal-close:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(59, 130, 246, 0.4); }
 
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    /* ━━━ MÓVIL — Lista vertical    ━━━ */
-    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━ RESPONSIVE — Tablet (no sidebars 3-col) ━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    @media (max-width: 1199px) and (min-width: 901px) {
+      .app-grid {
+        grid-template-columns: 1fr;
+        max-width: 760px;
+      }
+      aside.sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px;
+      }
+    }
+
+    /* ━━━ MÓVIL ━━━ */
     @media (max-width: 900px) {
       .topbar {
         grid-template-columns: 1fr auto;
-        grid-template-areas:
-          "brand actions"
-          "title title";
-        gap: 12px;
-        padding: 12px 16px 14px;
+        grid-template-areas: "brand actions" "title title";
+        gap: 12px; padding: 12px 16px 14px;
       }
       .topbar-brand   { grid-area: brand; }
       .topbar-actions { grid-area: actions; }
@@ -465,12 +759,16 @@
       .sheet-status .label { display: none; }
       .sheet-status { padding: 6px; }
 
-      .hub { padding: 14px 16px 28px; min-height: auto; }
+      .app-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 16px;
+        max-width: 100%;
+      }
 
       .dial-wrapper {
-        width: 100%; aspect-ratio: auto; max-height: none;
-        display: flex; flex-direction: column; gap: 18px;
-        align-items: stretch;
+        width: 100%; aspect-ratio: auto; max-width: none;
+        display: flex; flex-direction: column; gap: 16px;
       }
 
       .mobile-center-logo {
@@ -482,7 +780,7 @@
         display: flex; align-items: center; justify-content: center;
         overflow: hidden;
         position: relative;
-        margin: 6px 0;
+        margin: 4px 0 2px;
       }
       .mobile-center-logo::before {
         content: '';
@@ -502,10 +800,8 @@
       }
 
       .mobile-cards {
-        display: flex; flex-direction: column;
-        gap: 12px;
+        display: flex; flex-direction: column; gap: 12px;
       }
-
       .m-card {
         display: flex; align-items: center; gap: 14px;
         padding: 14px 16px;
@@ -539,24 +835,25 @@
         font-size: 22px;
       }
       .m-card .info { flex: 1; min-width: 0; }
-      .m-card .info .t {
-        font-size: 15px;
-        font-weight: 700;
-        margin-bottom: 3px;
-        letter-spacing: 0.3px;
-      }
-      .m-card .info .d {
-        font-size: 12px;
-        color: var(--text-secondary);
-        line-height: 1.4;
-      }
-      .m-card .chev {
-        color: rgba(96, 165, 250, 0.5);
-        font-size: 14px;
-        flex-shrink: 0;
-        transition: transform 0.25s, color 0.25s;
-      }
+      .m-card .info .t { font-size: 15px; font-weight: 700; margin-bottom: 3px; letter-spacing: 0.3px; }
+      .m-card .info .d { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
+      .m-card .chev { color: rgba(96, 165, 250, 0.5); font-size: 14px; flex-shrink: 0; transition: transform 0.25s, color 0.25s; }
       .m-card:active .chev { transform: translateX(4px); color: #60A5FA; }
+
+      aside.sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+      .card { padding: 14px; }
+      .card-header { margin-bottom: 10px; }
+      .card-header h3 { font-size: 13px; }
+      .novedades-img { height: 80px; }
+      .soporte-card { padding: 12px; }
+    }
+
+    @media (max-width: 580px) {
+      aside.sidebar { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 380px) {
@@ -564,7 +861,6 @@
       .topbar-text h1 { font-size: 11px; }
       .topbar-text p  { font-size: 8px; }
       .topbar-logo { width: 38px; height: 38px; }
-      .topbar-logo .fallback { font-size: 20px; }
       .topbar-title h2 { font-size: 19px; }
       .m-card { padding: 12px 14px; gap: 12px; }
       .m-card .icon { width: 46px; height: 46px; font-size: 20px; }
@@ -577,8 +873,6 @@
 
   <!-- ━━━ TOP BAR ━━━ -->
   <header class="topbar">
-
-    <!-- Marca a la izquierda -->
     <div class="topbar-brand">
       <div class="topbar-logo">
         <img src="logo-electronics.png" alt="Electronics México" onerror="this.style.display='none'; this.nextElementSibling.style.display='flex';">
@@ -589,36 +883,50 @@
         <p>México</p>
       </div>
     </div>
-
-    <!-- Título al centro -->
     <div class="topbar-title">
-      <h2>Hub de Empleados</h2>
+      <h2>Hub de Recursos Humanos</h2>
       <p>¡Bienvenido a tu centro de accesos!</p>
     </div>
-
-    <!-- Acciones a la derecha -->
     <div class="topbar-actions">
-      <div id="sheet-status" class="sheet-status loading" title="Estado de conexión al Sheet">
+      <div id="sheet-status" class="sheet-status loading">
         <span class="dot"></span>
         <span class="label">Cargando…</span>
       </div>
-      <button class="icon-btn" onclick="recargarHub()" title="Recargar módulos">
-        <i class="fas fa-sync-alt"></i>
-      </button>
-      <button class="icon-btn" onclick="abrirAcercaDe()" title="Acerca de">
-        <i class="fas fa-info"></i>
-      </button>
+      <button class="icon-btn" onclick="recargarHub()" title="Recargar"><i class="fas fa-sync-alt"></i></button>
+      <button class="icon-btn" onclick="abrirAcercaDe()" title="Acerca de"><i class="fas fa-info"></i></button>
     </div>
   </header>
 
-  <!-- ━━━ HUB ━━━ -->
-  <main class="hub">
-    <div id="hub-container" class="dial-wrapper">
-      <div class="loading-state">
-        <div class="loading-spinner"></div>
-        <div>Cargando módulos…</div>
+  <!-- ━━━ APP GRID ━━━ -->
+  <main class="app-grid">
+
+    <!-- ━━━ SIDEBAR IZQUIERDO ━━━ -->
+    <aside class="sidebar sidebar-left" id="sidebar-left">
+      <!-- Las cards se inyectan con JS -->
+    </aside>
+
+    <!-- ━━━ CENTRO — HUB ━━━ -->
+    <div class="center-area">
+      <div class="hub">
+        <div id="hub-container" class="dial-wrapper">
+          <div class="loading-state">
+            <div class="loading-spinner"></div>
+            <div>Cargando módulos…</div>
+          </div>
+        </div>
+      </div>
+      <div class="search-bar" onclick="alertaProximamente()">
+        <i class="fas fa-magnifying-glass"></i>
+        <div class="placeholder">Buscar módulos, documentos, personas…</div>
+        <span class="shortcut">⌘ K</span>
       </div>
     </div>
+
+    <!-- ━━━ SIDEBAR DERECHO ━━━ -->
+    <aside class="sidebar sidebar-right" id="sidebar-right">
+      <!-- Las cards se inyectan con JS -->
+    </aside>
+
   </main>
 
   <!-- ━━━ TOAST ━━━ -->
@@ -631,10 +939,9 @@
   <div class="modal-backdrop" id="modal-about" onclick="if(event.target===this)cerrarAcercaDe()">
     <div class="modal">
       <h3><i class="fas fa-circle-info"></i> Acerca del Hub</h3>
-      <p><strong>Hub de Empleados</strong> es el centro de accesos digitales de Electronics México. Todos los módulos se actualizan automáticamente desde una hoja central de Google Sheets.</p>
-      <p>Si el indicador en la parte superior muestra <strong style="color:#FCD34D;">"Modo offline"</strong>, significa que el Sheet no está accesible. Asegúrate de que esté compartido como <em>"Cualquier persona con el enlace"</em>.</p>
-      <p>Si un módulo no tiene enlace configurado, te lo haremos saber al hacer clic.</p>
-      <p style="font-size: 11px; opacity: 0.6; margin-top: 16px;">Electronics México · Hub Interno v2.1</p>
+      <p><strong>Hub de Recursos Humanos</strong> es el centro de accesos digitales de Electronics México. Todo se actualiza automáticamente desde Google Sheets.</p>
+      <p>Si el indicador en la parte superior muestra <strong style="color:#FCD34D;">"Modo offline"</strong>, significa que el Sheet no está accesible. Compártelo como <em>"Cualquier persona con el enlace"</em>.</p>
+      <p style="font-size: 11px; opacity: 0.6; margin-top: 16px;">Electronics México · Hub Interno v3.0</p>
       <button class="modal-close" onclick="cerrarAcercaDe()">Entendido</button>
     </div>
   </div>
@@ -643,15 +950,15 @@
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
     /* ━━━ CONFIGURACIÓN — Google Sheets       ━━━ */
     /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
-    // Para que esto funcione, el Google Sheet debe estar compartido como
-    // "Cualquier persona con el enlace puede ver".
     const SHEET_ID = '1HhQm5iTFMc9RQdbWH1ZfimREKIN3GWJkfrjUfpUgxD4';
-    const GID = '0';
-    const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&gid=${GID}`;
 
-    // Datos de respaldo (los 8 módulos REALES con sus URLs).
-    // Se usan si el Sheet no es accesible públicamente.
-    const FALLBACK = [
+    // Endpoint genérico para leer por nombre de hoja (más estable que gid)
+    function csvUrl(sheetName) {
+      return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+    }
+
+    // ━━━ Datos de respaldo del HUB ━━━
+    const FALLBACK_HUB = [
       { titulo: 'GYM', descripcion: 'Registra tu asistencia diaria', url: 'https://v-w04.github.io/gym-checkin/' },
       { titulo: 'BOT', descripcion: 'Chatbot y soporte interno', url: 'https://v-w04.github.io/gym-checkin/' },
       { titulo: 'SUMINISTROS', descripcion: 'Pide material e insumos', url: 'https://docs.google.com/forms/d/19BHAYwLOdRYXogGNmGVEGLvJM4HRKSSdZkhC1RUnzoc/viewform?edit_requested=true' },
@@ -662,14 +969,37 @@
       { titulo: 'RECETA MÉDICA', descripcion: 'Envía recetas y tickets', url: '' }
     ];
 
-    // Paleta rotativa
-    const PALETTE = [
-      '#F59E0B', '#06B6D4', '#10B981', '#A78BFA',
-      '#F472B6', '#60A5FA', '#FB923C', '#84CC16',
-      '#EC4899', '#22D3EE'
-    ];
+    // ━━━ Datos ficticios para sidebars (mientras se conecta al sheet) ━━━
+    const FICTICIOS = {
+      calendario: [
+        { dia: '21', mes: 'MAY', titulo: 'Día de capacitación', hora: '10:00 AM - 12:00 PM' },
+        { dia: '30', mes: 'MAY', titulo: 'Reunión de equipo', hora: '04:00 PM - 05:00 PM' },
+        { dia: '05', mes: 'JUN', titulo: 'Aniversario empresa', hora: 'Todo el día' }
+      ],
+      anuncios: [
+        { icono: 'fa-umbrella-beach', color: '#F59E0B', titulo: 'Nuevo sistema de vacaciones', subtitulo: 'Conoce los cambios aquí', leido: false },
+        { icono: 'fa-clipboard-list', color: '#06B6D4', titulo: 'Encuesta de satisfacción', subtitulo: 'Tu opinión nos importa', leido: false },
+        { icono: 'fa-leaf', color: '#10B981', titulo: 'Campaña de reciclaje', subtitulo: 'Participa y ayuda al medio ambiente', leido: false }
+      ],
+      accesosRapidos: [
+        { icono: 'fa-address-book', titulo: 'Directorio de empleados', url: '' },
+        { icono: 'fa-file-contract', titulo: 'Políticas de la empresa', url: '' },
+        { icono: 'fa-circle-question', titulo: 'Centro de ayuda', url: '' },
+        { icono: 'fa-folder-open', titulo: 'Documentos importantes', url: '' }
+      ],
+      novedades: {
+        titulo: 'Conoce las últimas actualizaciones de la empresa',
+        url: ''
+      },
+      cumpleanos: [
+        { nombre: 'María López',     fecha: '23 de mayo', iniciales: 'ML', color: '#F472B6' },
+        { nombre: 'Carlos Hernández', fecha: '27 de mayo', iniciales: 'CH', color: '#60A5FA' },
+        { nombre: 'Laura Martínez',   fecha: '31 de mayo', iniciales: 'LM', color: '#A78BFA' }
+      ]
+    };
 
-    /* ━━━ Mapeo de íconos por palabra clave ━━━ */
+    const PALETTE = ['#F59E0B','#06B6D4','#10B981','#A78BFA','#F472B6','#60A5FA','#FB923C','#84CC16','#EC4899','#22D3EE'];
+
     function getIcono(titulo) {
       const t = (titulo || '').toLowerCase();
       if (t.includes('gym') || t.includes('gimnasio') || t.includes('ejerci')) return 'fa-dumbbell';
@@ -690,7 +1020,7 @@
       return 'fa-circle-dot';
     }
 
-    /* ━━━ Parseo de CSV ━━━ */
+    /* ━━━ Parseo CSV ━━━ */
     function parseCSV(text) {
       const filas = [];
       let actual = [], campo = '', dentroComillas = false;
@@ -706,16 +1036,20 @@
         else { campo += c; }
       }
       if (campo !== '' || actual.length > 0) { actual.push(campo); filas.push(actual); }
-      if (filas.length === 0) return [];
-      // Quitar fila 1 (encabezados) y empezar desde fila 2
-      const datos = filas.slice(1);
-      return datos
-        .map(r => ({
-          titulo: (r[0] || '').trim(),
-          descripcion: (r[1] || '').trim(),
-          url: (r[2] || '').trim()
-        }))
-        .filter(item => item.titulo && item.titulo.toLowerCase() !== 'titulo');
+      return filas;
+    }
+
+    function csvAObjetos(csv, columnas) {
+      const filas = parseCSV(csv);
+      if (filas.length < 2) return [];
+      // Saltar fila 1 (encabezados)
+      return filas.slice(1)
+        .map(r => {
+          const obj = {};
+          columnas.forEach((col, i) => obj[col] = (r[i] || '').trim());
+          return obj;
+        })
+        .filter(o => Object.values(o).some(v => v));
     }
 
     /* ━━━ Estado de conexión ━━━ */
@@ -724,21 +1058,21 @@
       el.classList.remove('loading', 'ok', 'warn');
       el.classList.add(estado);
       const label = el.querySelector('.label');
-      if (estado === 'ok')      label.textContent = 'Sheet conectado';
+      if (estado === 'ok')        label.textContent = 'Sheet conectado';
       else if (estado === 'warn') label.textContent = 'Modo offline';
-      else                       label.textContent = 'Cargando…';
+      else                        label.textContent = 'Cargando…';
     }
 
-    /* ━━━ Carga inicial ━━━ */
+    /* ━━━ Carga del HUB principal ━━━ */
     let datosActuales = [];
 
     async function cargarDatos() {
       setEstadoSheet('loading');
       try {
-        const res = await fetch(CSV_URL, { cache: 'no-store' });
+        const res = await fetch(csvUrl('HUB'), { cache: 'no-store' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const csv = await res.text();
-        const items = parseCSV(csv);
+        const items = csvAObjetos(csv, ['titulo', 'descripcion', 'url']);
         if (items.length === 0) throw new Error('Sheet vacío');
         console.log(`✅ Sheet conectado — ${items.length} módulos cargados`);
         datosActuales = items;
@@ -746,90 +1080,74 @@
         renderizarHub(items);
       } catch (e) {
         console.warn('⚠️ Sheet no accesible:', e.message);
-        console.warn('Usando datos de respaldo (' + FALLBACK.length + ' módulos).');
-        console.warn('Para conectar al Sheet, compártelo como "Cualquier persona con el enlace puede ver".');
-        datosActuales = FALLBACK;
+        console.warn('Usando datos de respaldo (' + FALLBACK_HUB.length + ' módulos).');
+        datosActuales = FALLBACK_HUB;
         setEstadoSheet('warn');
-        renderizarHub(FALLBACK);
+        renderizarHub(FALLBACK_HUB);
       }
     }
 
     function recargarHub() {
-      const cont = document.getElementById('hub-container');
-      cont.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div><div>Actualizando…</div></div>';
+      document.getElementById('hub-container').innerHTML =
+        '<div class="loading-state"><div class="loading-spinner"></div><div>Actualizando…</div></div>';
       cargarDatos();
+      renderSidebars(); // re-render sidebars (más adelante refetchearán también)
     }
 
-    /* ━━━ Renderizado ━━━ */
+    /* ━━━ Render principal ━━━ */
     function renderizarHub(items) {
       const cont = document.getElementById('hub-container');
       cont.innerHTML = '';
-
       if (!items || items.length === 0) {
-        cont.innerHTML = `
-          <div class="empty-state">
-            <i class="fas fa-circle-exclamation"></i>
-            <h3>No hay módulos configurados</h3>
-            <p>Agrega filas a la hoja para que aparezcan aquí.</p>
-          </div>`;
+        cont.innerHTML = `<div class="empty-state"><i class="fas fa-circle-exclamation"></i><h3>No hay módulos</h3></div>`;
         return;
       }
-
       const esMovil = window.innerWidth <= 900;
       if (esMovil) renderizarMovil(cont, items);
       else         renderizarDial(cont, items);
     }
 
-    /* ━━━ DESKTOP — Dial SVG dinámico ━━━ */
+    /* ━━━ DIAL SVG ━━━ */
     function renderizarDial(cont, items) {
       const N = items.length;
-      const VB = 700;
-      const cx = VB / 2, cy = VB / 2;
-      const outerR = 320;
-      const innerR = 95;
+      const VB = 700, cx = VB/2, cy = VB/2, outerR = 320, innerR = 95;
       const cardR = (outerR + innerR) / 2 - 5;
-
       const svgNS = 'http://www.w3.org/2000/svg';
+
       const svg = document.createElementNS(svgNS, 'svg');
       svg.setAttribute('class', 'dial-svg');
       svg.setAttribute('viewBox', `0 0 ${VB} ${VB}`);
 
-      const outerRing = document.createElementNS(svgNS, 'circle');
-      outerRing.setAttribute('cx', cx);
-      outerRing.setAttribute('cy', cy);
-      outerRing.setAttribute('r', outerR + 12);
-      outerRing.setAttribute('fill', 'none');
-      outerRing.setAttribute('stroke', 'rgba(96, 165, 250, 0.15)');
-      outerRing.setAttribute('stroke-width', '1');
-      svg.appendChild(outerRing);
+      const ring = document.createElementNS(svgNS, 'circle');
+      ring.setAttribute('cx', cx); ring.setAttribute('cy', cy);
+      ring.setAttribute('r', outerR + 12);
+      ring.setAttribute('fill', 'none');
+      ring.setAttribute('stroke', 'rgba(96, 165, 250, 0.15)');
+      ring.setAttribute('stroke-width', '1');
+      svg.appendChild(ring);
 
       for (let i = 0; i < N; i++) {
-        const colorAcento = PALETTE[i % PALETTE.length];
-        const startAng = (i * 360) / N;
-        const endAng   = ((i + 1) * 360) / N;
-
+        const color = PALETTE[i % PALETTE.length];
+        const a1 = (i * 360) / N, a2 = ((i + 1) * 360) / N;
         const g = document.createElementNS(svgNS, 'g');
         g.setAttribute('class', 'slice-cell');
-        g.setAttribute('data-idx', i);
 
-        const path = document.createElementNS(svgNS, 'path');
-        path.setAttribute('class', 'slice');
-        path.setAttribute('d', construirSlice(cx, cy, innerR, outerR, startAng, endAng, N));
-        g.appendChild(path);
+        const p = document.createElementNS(svgNS, 'path');
+        p.setAttribute('class', 'slice');
+        p.setAttribute('d', construirSlice(cx, cy, innerR, outerR, a1, a2, N));
+        g.appendChild(p);
 
         const glow = document.createElementNS(svgNS, 'path');
         glow.setAttribute('class', 'slice-glow');
-        glow.setAttribute('d', construirArcoInterior(cx, cy, innerR + 4, startAng, endAng, N));
-        glow.setAttribute('stroke', colorAcento);
+        glow.setAttribute('d', construirArcoInterior(cx, cy, innerR + 4, a1, a2, N));
+        glow.setAttribute('stroke', color);
         g.appendChild(glow);
 
         g.addEventListener('click', () => abrirModulo(items[i]));
         svg.appendChild(g);
       }
-
       cont.appendChild(svg);
 
-      // Centro / Logo grande con imagen
       const center = document.createElement('div');
       center.className = 'dial-center';
       center.innerHTML = `
@@ -839,26 +1157,21 @@
       `;
       cont.appendChild(center);
 
-      // Tarjetas flotantes sobre cada slice
       for (let i = 0; i < N; i++) {
-        const colorAcento = PALETTE[i % PALETTE.length];
-        const angCentro = ((i * 360) / N) + (360 / N) / 2;
-        const rad = (angCentro - 90) * Math.PI / 180;
+        const color = PALETTE[i % PALETTE.length];
+        const ang = ((i * 360) / N) + (360 / N) / 2;
+        const rad = (ang - 90) * Math.PI / 180;
         const pctR = cardR / VB * 100;
-        const xPct = 50 + pctR * Math.cos(rad);
-        const yPct = 50 + pctR * Math.sin(rad);
-        // Tamaño dinámico de tarjetas según cantidad de slices
-        const cardW = N <= 3 ? 180 : N <= 4 ? 170 : N <= 6 ? 155 : N <= 8 ? 135 : 115;
-
+        const cardW = N <= 3 ? 170 : N <= 4 ? 160 : N <= 6 ? 145 : N <= 8 ? 130 : 110;
         const card = document.createElement('div');
         card.className = 'slice-content';
-        card.style.left = xPct + '%';
-        card.style.top  = yPct + '%';
+        card.style.left = (50 + pctR * Math.cos(rad)) + '%';
+        card.style.top  = (50 + pctR * Math.sin(rad)) + '%';
         card.style.setProperty('--card-w', cardW + 'px');
-        card.style.color = colorAcento;
+        card.style.color = color;
         card.style.animationDelay = (0.1 + i * 0.08) + 's';
         card.innerHTML = `
-          <div class="slice-icon" style="color: ${colorAcento}; border-color: ${hexToRgba(colorAcento, 0.4)};">
+          <div class="slice-icon" style="color:${color}; border-color:${hexToRgba(color, 0.4)};">
             <i class="fas ${getIcono(items[i].titulo)}"></i>
           </div>
           <div class="slice-title">${escapar(items[i].titulo)}</div>
@@ -871,46 +1184,36 @@
 
     function construirSlice(cx, cy, rInt, rExt, ang1, ang2, N) {
       if (N === 1) {
-        return `
-          M ${cx + rExt} ${cy}
-          A ${rExt} ${rExt} 0 1 0 ${cx - rExt} ${cy}
-          A ${rExt} ${rExt} 0 1 0 ${cx + rExt} ${cy}
-          M ${cx + rInt} ${cy}
-          A ${rInt} ${rInt} 0 1 1 ${cx - rInt} ${cy}
-          A ${rInt} ${rInt} 0 1 1 ${cx + rInt} ${cy}
-          Z
-        `;
+        return `M ${cx + rExt} ${cy}
+                A ${rExt} ${rExt} 0 1 0 ${cx - rExt} ${cy}
+                A ${rExt} ${rExt} 0 1 0 ${cx + rExt} ${cy}
+                M ${cx + rInt} ${cy}
+                A ${rInt} ${rInt} 0 1 1 ${cx - rInt} ${cy}
+                A ${rInt} ${rInt} 0 1 1 ${cx + rInt} ${cy} Z`;
       }
       const r1 = (ang1 - 90) * Math.PI / 180;
       const r2 = (ang2 - 90) * Math.PI / 180;
-      const largeArc = (ang2 - ang1) > 180 ? 1 : 0;
+      const la = (ang2 - ang1) > 180 ? 1 : 0;
       const p1 = { x: cx + rInt * Math.cos(r1), y: cy + rInt * Math.sin(r1) };
       const p2 = { x: cx + rExt * Math.cos(r1), y: cy + rExt * Math.sin(r1) };
       const p3 = { x: cx + rExt * Math.cos(r2), y: cy + rExt * Math.sin(r2) };
       const p4 = { x: cx + rInt * Math.cos(r2), y: cy + rInt * Math.sin(r2) };
-      return `
-        M ${p1.x} ${p1.y}
-        L ${p2.x} ${p2.y}
-        A ${rExt} ${rExt} 0 ${largeArc} 1 ${p3.x} ${p3.y}
-        L ${p4.x} ${p4.y}
-        A ${rInt} ${rInt} 0 ${largeArc} 0 ${p1.x} ${p1.y}
-        Z
-      `;
+      return `M ${p1.x} ${p1.y} L ${p2.x} ${p2.y}
+              A ${rExt} ${rExt} 0 ${la} 1 ${p3.x} ${p3.y}
+              L ${p4.x} ${p4.y}
+              A ${rInt} ${rInt} 0 ${la} 0 ${p1.x} ${p1.y} Z`;
     }
-
     function construirArcoInterior(cx, cy, r, ang1, ang2, N) {
-      if (N === 1) {
-        return `M ${cx + r} ${cy} A ${r} ${r} 0 1 1 ${cx - r} ${cy} A ${r} ${r} 0 1 1 ${cx + r} ${cy}`;
-      }
+      if (N === 1) return `M ${cx + r} ${cy} A ${r} ${r} 0 1 1 ${cx - r} ${cy} A ${r} ${r} 0 1 1 ${cx + r} ${cy}`;
       const r1 = (ang1 - 90) * Math.PI / 180;
       const r2 = (ang2 - 90) * Math.PI / 180;
-      const largeArc = (ang2 - ang1) > 180 ? 1 : 0;
+      const la = (ang2 - ang1) > 180 ? 1 : 0;
       const p1 = { x: cx + r * Math.cos(r1), y: cy + r * Math.sin(r1) };
       const p2 = { x: cx + r * Math.cos(r2), y: cy + r * Math.sin(r2) };
-      return `M ${p1.x} ${p1.y} A ${r} ${r} 0 ${largeArc} 1 ${p2.x} ${p2.y}`;
+      return `M ${p1.x} ${p1.y} A ${r} ${r} 0 ${la} 1 ${p2.x} ${p2.y}`;
     }
 
-    /* ━━━ MÓVIL — Lista vertical ━━━ */
+    /* ━━━ Móvil — lista ━━━ */
     function renderizarMovil(cont, items) {
       const logo = document.createElement('div');
       logo.className = 'mobile-center-logo';
@@ -923,7 +1226,6 @@
 
       const wrap = document.createElement('div');
       wrap.className = 'mobile-cards';
-
       items.forEach((it, i) => {
         const color = PALETTE[i % PALETTE.length];
         const card = document.createElement('a');
@@ -931,7 +1233,7 @@
         card.className = 'm-card';
         card.style.animationDelay = (i * 0.07) + 's';
         card.innerHTML = `
-          <div class="icon" style="color: ${color}; border-color: ${hexToRgba(color, 0.4)};">
+          <div class="icon" style="color:${color}; border-color:${hexToRgba(color, 0.4)};">
             <i class="fas ${getIcono(it.titulo)}"></i>
           </div>
           <div class="info">
@@ -940,11 +1242,152 @@
           </div>
           <i class="fas fa-chevron-right chev"></i>
         `;
-        card.addEventListener('click', (e) => { e.preventDefault(); abrirModulo(it); });
+        card.addEventListener('click', e => { e.preventDefault(); abrirModulo(it); });
         wrap.appendChild(card);
       });
-
       cont.appendChild(wrap);
+    }
+
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    /* ━━━ RENDERIZADO DE SIDEBARS              ━━━ */
+    /* ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ */
+    function renderSidebars() {
+      const izq = document.getElementById('sidebar-left');
+      const der = document.getElementById('sidebar-right');
+      izq.innerHTML = ''; der.innerHTML = '';
+
+      let delay = 0;
+      const stagger = () => { delay += 0.06; return `animation-delay:${delay}s`; };
+
+      // ━━━ IZQUIERDA ━━━
+
+      // 1. Calendario
+      const calItems = FICTICIOS.calendario.map(e => `
+        <div class="cal-item">
+          <div class="cal-date">
+            <div class="d">${escapar(e.dia)}</div>
+            <div class="m">${escapar(e.mes)}</div>
+          </div>
+          <div class="cal-info">
+            <div class="t">${escapar(e.titulo)}</div>
+            <div class="h">${escapar(e.hora)}</div>
+          </div>
+        </div>`).join('');
+      izq.insertAdjacentHTML('beforeend', `
+        <div class="card" style="${stagger()}">
+          <div class="card-header">
+            <div class="icon" style="background:rgba(59,130,246,0.18); color:#60A5FA;">
+              <i class="fas fa-calendar-days"></i>
+            </div>
+            <h3>Calendario</h3>
+            <i class="fas fa-ellipsis more" title="Opciones"></i>
+          </div>
+          ${calItems}
+          <div class="card-footer-link" onclick="alertaProximamente()">
+            Ver calendario completo <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      `);
+
+      // 2. Anuncios
+      const ancItems = FICTICIOS.anuncios.map(a => `
+        <div class="anuncio-item" onclick="alertaProximamente()">
+          <div class="ico" style="color:${a.color}; background:${hexToRgba(a.color, 0.18)};">
+            <i class="fas ${a.icono}"></i>
+          </div>
+          <div class="body">
+            <div class="t">${escapar(a.titulo)}</div>
+            <div class="s">${escapar(a.subtitulo)}</div>
+          </div>
+          ${a.leido ? '' : '<div class="dot-unread"></div>'}
+        </div>`).join('');
+      izq.insertAdjacentHTML('beforeend', `
+        <div class="card" style="${stagger()}">
+          <div class="card-header">
+            <div class="icon" style="background:rgba(244,114,182,0.18); color:#F472B6;">
+              <i class="fas fa-bullhorn"></i>
+            </div>
+            <h3>Anuncios</h3>
+            <span class="badge">${FICTICIOS.anuncios.filter(a => !a.leido).length}</span>
+          </div>
+          ${ancItems}
+          <div class="card-footer-link" onclick="alertaProximamente()">
+            Ver todos los anuncios <i class="fas fa-arrow-right"></i>
+          </div>
+        </div>
+      `);
+
+      // 3. Accesos rápidos
+      const acItems = FICTICIOS.accesosRapidos.map(a => `
+        <div class="acceso-item" onclick="alertaProximamente()">
+          <div class="ico"><i class="fas ${a.icono}"></i></div>
+          <div class="t">${escapar(a.titulo)}</div>
+          <i class="fas fa-chevron-right chev"></i>
+        </div>`).join('');
+      izq.insertAdjacentHTML('beforeend', `
+        <div class="card" style="${stagger()}">
+          <div class="card-header">
+            <div class="icon" style="background:rgba(245,158,11,0.18); color:#F59E0B;">
+              <i class="fas fa-bolt"></i>
+            </div>
+            <h3>Accesos rápidos</h3>
+          </div>
+          ${acItems}
+        </div>
+      `);
+
+      // 4. Centro de soporte
+      izq.insertAdjacentHTML('beforeend', `
+        <div class="soporte-card" onclick="alertaProximamente()" style="${stagger()}; opacity:0; animation: cardEnter 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;">
+          <div class="ico"><i class="fas fa-headset"></i></div>
+          <div class="info">
+            <div class="s">Estamos para ayudarte</div>
+            <div class="t">Centro de soporte</div>
+          </div>
+        </div>
+      `);
+
+      // ━━━ DERECHA ━━━
+
+      // 1. Novedades
+      der.insertAdjacentHTML('beforeend', `
+        <div class="card" style="${stagger()}">
+          <div class="card-header">
+            <div class="icon" style="background:rgba(96,165,250,0.18); color:#60A5FA;">
+              <i class="fas fa-newspaper"></i>
+            </div>
+            <h3>Novedades</h3>
+          </div>
+          <div class="novedades-content">
+            <div class="novedades-text">${escapar(FICTICIOS.novedades.titulo)}</div>
+            <div class="novedades-img"><i class="fas fa-laptop-code"></i></div>
+            <button class="novedades-btn" onclick="alertaProximamente()">Ver más</button>
+          </div>
+        </div>
+      `);
+
+      // 2. Cumpleaños
+      const cuItems = FICTICIOS.cumpleanos.map(c => `
+        <div class="cumple-item">
+          <div class="cumple-avatar" style="background:linear-gradient(135deg, ${c.color}, ${hexToRgba(c.color, 0.6)});">${escapar(c.iniciales)}</div>
+          <div class="cumple-info">
+            <div class="n">${escapar(c.nombre)}</div>
+            <div class="f">${escapar(c.fecha)}</div>
+          </div>
+          <i class="fas fa-cake-candles cake"></i>
+        </div>`).join('');
+      der.insertAdjacentHTML('beforeend', `
+        <div class="card" style="${stagger()}">
+          <div class="card-header">
+            <div class="icon" style="background:rgba(244,114,182,0.18); color:#F472B6;">
+              <i class="fas fa-cake-candles"></i>
+            </div>
+            <h3>Cumpleaños del mes</h3>
+            <span class="card-header-action" onclick="alertaProximamente()">Ver todos</span>
+          </div>
+          ${cuItems}
+        </div>
+      `);
     }
 
     /* ━━━ Acciones ━━━ */
@@ -971,7 +1414,11 @@
       toastTimer = setTimeout(() => t.classList.remove('show'), 3200);
     }
 
-    function abrirAcercaDe() { document.getElementById('modal-about').classList.add('show'); }
+    function alertaProximamente() {
+      mostrarToast('Esta función estará disponible próximamente.');
+    }
+
+    function abrirAcercaDe()  { document.getElementById('modal-about').classList.add('show'); }
     function cerrarAcercaDe() { document.getElementById('modal-about').classList.remove('show'); }
 
     /* ━━━ Utilidades ━━━ */
@@ -989,7 +1436,7 @@
     /* ━━━ Partículas ━━━ */
     (function generarParticulas() {
       const cont = document.getElementById('particles');
-      const N = window.innerWidth < 768 ? 12 : 25;
+      const N = window.innerWidth < 768 ? 10 : 22;
       for (let i = 0; i < N; i++) {
         const p = document.createElement('div');
         p.className = 'particle';
@@ -1001,7 +1448,7 @@
       }
     })();
 
-    /* ━━━ Re-render al cambiar tamaño ━━━ */
+    /* ━━━ Re-render al resize ━━━ */
     let resizeTimer = null;
     let modoActual = null;
     window.addEventListener('resize', () => {
@@ -1015,9 +1462,18 @@
       }, 250);
     });
 
+    /* ━━━ Keyboard shortcut ⌘K / Ctrl+K ━━━ */
+    document.addEventListener('keydown', (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault();
+        alertaProximamente();
+      }
+    });
+
     // Inicio
     modoActual = window.innerWidth <= 900 ? 'movil' : 'dial';
     cargarDatos();
+    renderSidebars();
   </script>
 
 </body>
