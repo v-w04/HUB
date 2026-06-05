@@ -624,18 +624,19 @@
     }
 
     @media (max-width: 900px) {
-      /* TOPBAR MOBILE — flat, no shadow that bleeds, no blur, no overlap */
+      /* TOPBAR MOBILE — sticky arriba, opaco, como cualquier app mobile */
       .topbar {
-        position: static !important;
-        z-index: auto !important;
+        position: sticky !important;
+        top: 0;
+        z-index: 100;
         grid-template-columns: 1fr auto;
         grid-template-areas: "brand actions" "title title";
         gap: 10px; padding: 14px 16px 16px;
         height: auto;
-        box-shadow: none !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.5);
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
-        background: rgba(15, 23, 42, 1) !important;
+        background: rgb(15, 23, 42) !important;
       }
       .topbar-brand   { grid-area: brand; }
       .topbar-actions { grid-area: actions; }
@@ -648,7 +649,7 @@
       .app-grid {
         grid-template-columns: 1fr;
         gap: 18px;
-        padding: 24px 16px 32px;
+        padding: 20px 16px 32px;
         max-width: 100%;
         position: relative;
         z-index: 1;
@@ -797,7 +798,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.1</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.2</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
