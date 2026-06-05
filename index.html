@@ -436,6 +436,24 @@
     /* ━━━ DIAL ━━━ */
     .dial-wrapper { position: relative; width: 100%; max-width: 760px; aspect-ratio: 1; max-height: 100%; transition: filter 0.4s; }
     .dial-svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+
+    /* ━━━ ANILLO EXTERIOR — breathing/glow constante para destacar el dial ━━━ */
+    .dial-svg .outer-ring {
+      animation: ringBreathing 4s ease-in-out infinite;
+      transform-origin: center;
+    }
+    @keyframes ringBreathing {
+      0%, 100% {
+        stroke-opacity: 0.4;
+        stroke-width: 1.5;
+        filter: drop-shadow(0 0 4px rgba(96, 165, 250, 0.4));
+      }
+      50% {
+        stroke-opacity: 0.9;
+        stroke-width: 2.5;
+        filter: drop-shadow(0 0 14px rgba(96, 165, 250, 0.8));
+      }
+    }
     .dial-svg .slice {
       stroke: rgba(11,18,36,0.18);
       stroke-width: 1;
@@ -488,23 +506,20 @@
       to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
     .slice-icon {
-      width: 50px; height: 50px;
-      margin: 0 auto 8px;
-      border-radius: 13px;
-      background: rgba(15,23,42,0.6);
-      border: 1.5px solid;
+      width: auto; height: auto;
+      margin: 0 auto 10px;
       display: flex; align-items: center; justify-content: center;
-      font-size: 24px;
-      box-shadow: 0 0 18px currentColor;
-      transition: all 0.3s;
+      font-size: 32px;
+      color: #fff !important;
+      filter: drop-shadow(0 2px 6px rgba(0,0,0,0.5));
+      transition: transform 0.3s, filter 0.3s;
     }
     .slice-cell:hover .slice-icon {
-      transform: rotate(-8deg) scale(1.12);
-      box-shadow: 0 0 28px currentColor, 0 0 55px currentColor;
-      filter: brightness(1.25);
+      transform: scale(1.15);
+      filter: drop-shadow(0 2px 10px rgba(0,0,0,0.6)) brightness(1.15);
     }
-    .slice-title { font-size: 14px; font-weight: 700; line-height: 1.15; letter-spacing: 0.5px; margin-bottom: 4px; color: var(--text-primary); }
-    .slice-desc { font-size: 11.5px; line-height: 1.35; color: var(--text-secondary); padding: 0 4px; }
+    .slice-title { font-size: 14px; font-weight: 700; line-height: 1.15; letter-spacing: 0.6px; margin-bottom: 4px; color: #fff; text-shadow: 0 1px 4px rgba(0,0,0,0.5); }
+    .slice-desc { font-size: 11.5px; line-height: 1.35; color: rgba(255,255,255,0.85); padding: 0 4px; text-shadow: 0 1px 3px rgba(0,0,0,0.45); }
 
     .dial-center {
       position: absolute;
@@ -647,13 +662,17 @@
     }
 
     @media (max-width: 900px) {
-      /* TOPBAR MOBILE — compacto, normal flow */
+      /* TOPBAR MOBILE — compacto, respeta safe area (PWA fullscreen + notch) */
       .topbar {
         position: relative !important;
         z-index: auto !important;
         grid-template-columns: 1fr auto;
         grid-template-areas: "brand actions" "title title";
-        gap: 6px; padding: 10px 14px 12px;
+        gap: 6px;
+        padding-top: calc(env(safe-area-inset-top, 0px) + 10px);
+        padding-left: calc(env(safe-area-inset-left, 0px) + 14px);
+        padding-right: calc(env(safe-area-inset-right, 0px) + 14px);
+        padding-bottom: 12px;
         height: auto;
         box-shadow: none !important;
         backdrop-filter: none !important;
@@ -677,7 +696,7 @@
       .app-grid {
         grid-template-columns: 1fr;
         gap: 22px;
-        padding: 22px 14px 32px;
+        padding: 22px 14px calc(env(safe-area-inset-bottom, 0px) + 32px);
         max-width: 100%;
         height: auto !important;
         min-height: 0 !important;
@@ -763,48 +782,55 @@
         margin: 0;
       }
 
-      /* ━━━ BUBBLES GRID — compacto, las 8 caben en una pantalla ━━━ */
+      /* ━━━ BUBBLES GRID — tiles unificados (mosaico tocándose) ━━━ */
       .bubbles-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
-        gap: 14px 12px;
+        gap: 6px;
         width: 100%;
-        padding: 16px 12px 18px;
+        padding: 0;
       }
       .bubble-wrap {
         display: flex; flex-direction: column;
-        align-items: center; gap: 6px;
+        align-items: center; justify-content: center;
+        gap: 10px;
+        padding: 22px 12px 18px;
+        min-height: 116px;
         cursor: pointer;
         text-decoration: none;
-        color: inherit;
+        color: #fff;
+        background-color: var(--mod-color);
+        background-image: linear-gradient(155deg, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.28) 100%);
+        border-radius: 4px;
         opacity: 0;
         animation: bubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        transition: transform 0.15s, filter 0.15s;
       }
       @keyframes bubbleIn {
-        from { opacity: 0; transform: translateY(8px) scale(0.92); }
+        from { opacity: 0; transform: translateY(8px) scale(0.96); }
         to   { opacity: 1; transform: translateY(0) scale(1); }
       }
+      .bubble-wrap:active { transform: scale(0.96); filter: brightness(1.1); }
       .bubble {
-        width: 68px; height: 68px;
-        border-radius: 18px;
-        background: rgba(15, 23, 42, 0.85);
-        border: 1.6px solid;
+        width: auto; height: auto;
+        background: transparent;
+        border: none;
+        box-shadow: none;
+        font-size: 34px;
+        color: #fff;
         display: flex; align-items: center; justify-content: center;
-        font-size: 28px;
-        transition: transform 0.2s, box-shadow 0.2s;
-        box-shadow:
-          0 0 9px currentColor,
-          inset 0 1px 0 rgba(255,255,255,0.1),
-          0 3px 10px rgba(0,0,0,0.4);
+        line-height: 1;
+        filter: drop-shadow(0 2px 4px rgba(0,0,0,0.35));
       }
-      .bubble-wrap:active .bubble { transform: scale(0.92); }
       .bubble-label {
-        font-size: 11.5px;
+        font-size: 12.5px;
         font-weight: 700;
-        color: var(--text-primary);
+        color: #fff;
         text-align: center;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.5px;
         line-height: 1.2;
+        text-transform: uppercase;
+        text-shadow: 0 1px 3px rgba(0,0,0,0.45);
         display: -webkit-box;
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
@@ -847,7 +873,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.6</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.5.0</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
@@ -1062,8 +1088,8 @@
         grad.setAttribute('cy', cy);
         grad.setAttribute('r', outerR);
         const stops = [
-          { o: '0%',   c: color, a: '0.20' },
-          { o: '100%', c: color, a: '0.20' }
+          { o: '0%',   c: color, a: '0.55' },
+          { o: '100%', c: color, a: '0.55' }
         ];
         stops.forEach(({o,c,a}) => {
           const s = document.createElementNS(svgNS, 'stop');
@@ -1083,13 +1109,14 @@
       baseFill.setAttribute('fill', '#0F172A');
       svg.appendChild(baseFill);
 
-      // ━━━ ANILLO EXTERIOR (sutil, sin halo extra) ━━━
+      // ━━━ ANILLO EXTERIOR con breathing/glow ━━━
       const outerRing = document.createElementNS(svgNS, 'circle');
+      outerRing.setAttribute('class', 'outer-ring');
       outerRing.setAttribute('cx', cx); outerRing.setAttribute('cy', cy);
       outerRing.setAttribute('r', outerR + 6);
       outerRing.setAttribute('fill', 'none');
-      outerRing.setAttribute('stroke', 'rgba(96, 165, 250, 0.32)');
-      outerRing.setAttribute('stroke-width', '1.2');
+      outerRing.setAttribute('stroke', '#60A5FA');
+      outerRing.setAttribute('stroke-width', '2');
       svg.appendChild(outerRing);
 
       // ━━━ SLICES (con gradiente + accent sutil que se intensifica en hover) ━━━
@@ -1152,7 +1179,7 @@
         card.style.color = color;
         // Sin delay escalonado — todas las cards aparecen juntas (coordinado, no secuencial)
         card.innerHTML = `
-          <div class="slice-icon" style="color:${color}; border-color:${hexToRgba(color, 0.5)};">
+          <div class="slice-icon">
             <i class="fas ${getIcono(items[i].titulo)}"></i>
           </div>
           <div class="slice-title">${escapar(items[i].titulo)}</div>
@@ -1236,9 +1263,10 @@
         const a = document.createElement('a');
         a.href = '#';
         a.className = 'bubble-wrap';
+        a.style.setProperty('--mod-color', color);
         a.style.animationDelay = (i * 0.05) + 's';
         a.innerHTML = `
-          <div class="bubble" style="color:${color}; border-color:${hexToRgba(color, 0.6)};">
+          <div class="bubble">
             <i class="fas ${getIcono(it.titulo)}"></i>
           </div>
           <div class="bubble-label">${escapar(it.titulo)}</div>
