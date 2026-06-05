@@ -428,23 +428,25 @@
       transition: fill 0.35s ease, opacity 0.35s ease;
       cursor: pointer;
     }
-    .dial-svg .slice-glow-inner, .dial-svg .slice-glow-outer {
+    /* Arco exterior con color de acento — sutil al estar quieto, intenso en hover */
+    .dial-svg .slice-glow-outer {
       fill: none;
       pointer-events: none;
-      transition: opacity 0.35s, stroke-width 0.35s;
+      stroke-width: 1;
+      opacity: 0.42;
+      filter: drop-shadow(0 0 2px var(--accent, #60A5FA));
+      transition: stroke-width 0.35s, opacity 0.35s, filter 0.35s;
     }
 
     /* ━━━ ESTADO HOVER — Todo el dial reacciona ━━━ */
-    .dial-wrapper.hovering { filter: brightness(1.04); }
-    .dial-wrapper.hovering .slice-cell:not(.active) .slice {
-      opacity: 0.42;
+    .dial-wrapper.hovering { filter: brightness(1.05); }
+    .dial-wrapper.hovering .slice-cell:not(.active) .slice { opacity: 0.4; }
+    .dial-wrapper.hovering .slice-cell:not(.active) .slice-glow-outer { opacity: 0.12; }
+    .dial-wrapper.hovering .slice-cell.active .slice-glow-outer {
+      stroke-width: 3;
+      opacity: 1;
+      filter: drop-shadow(0 0 8px var(--accent));
     }
-    .dial-wrapper.hovering .slice-cell:not(.active) .slice-glow-inner,
-    .dial-wrapper.hovering .slice-cell:not(.active) .slice-glow-outer {
-      opacity: 0.25;
-    }
-    .dial-wrapper.hovering .slice-cell.active .slice-glow-outer { stroke-width: 4; opacity: 1; }
-    .dial-wrapper.hovering .slice-cell.active .slice-glow-inner { stroke-width: 3; opacity: 1; }
     .dial-wrapper.hovering .slice-content:not(.active) { opacity: 0.35; filter: grayscale(0.55); }
     .dial-wrapper.hovering .slice-content.active { transform: translate(-50%, -50%) scale(1.1); z-index: 4; }
     .dial-wrapper.hovering .slice-content.active .slice-icon {
@@ -935,10 +937,8 @@
         grad.setAttribute('cy', cy);
         grad.setAttribute('r', outerR);
         const stops = [
-          { o: '0%',  c: '#0F172A', a: '0.95' },
-          { o: '55%', c: '#0F172A', a: '0.88' },
-          { o: '88%', c: color,    a: '0.10' },
-          { o: '100%',c: color,    a: '0.30' }
+          { o: '30%', c: '#15233E', a: '0.65' },
+          { o: '100%',c: color,    a: '0.32' }
         ];
         stops.forEach(({o,c,a}) => {
           const s = document.createElementNS(svgNS, 'stop');
@@ -951,31 +951,24 @@
       }
       svg.appendChild(defs);
 
-      // ━━━ ANILLO EXTERIOR (visible + halo difuso) ━━━
+      // ━━━ ANILLO EXTERIOR (sutil, sin halo extra) ━━━
       const outerRing = document.createElementNS(svgNS, 'circle');
       outerRing.setAttribute('cx', cx); outerRing.setAttribute('cy', cy);
       outerRing.setAttribute('r', outerR + 6);
       outerRing.setAttribute('fill', 'none');
-      outerRing.setAttribute('stroke', 'rgba(96, 165, 250, 0.55)');
-      outerRing.setAttribute('stroke-width', '1.8');
+      outerRing.setAttribute('stroke', 'rgba(96, 165, 250, 0.32)');
+      outerRing.setAttribute('stroke-width', '1.2');
       svg.appendChild(outerRing);
 
-      const outerHalo = document.createElementNS(svgNS, 'circle');
-      outerHalo.setAttribute('cx', cx); outerHalo.setAttribute('cy', cy);
-      outerHalo.setAttribute('r', outerR + 22);
-      outerHalo.setAttribute('fill', 'none');
-      outerHalo.setAttribute('stroke', 'rgba(96, 165, 250, 0.14)');
-      outerHalo.setAttribute('stroke-width', '1');
-      svg.appendChild(outerHalo);
-
-      // ━━━ SLICES (con gradiente + dos arcos de acento) ━━━
+      // ━━━ SLICES (con gradiente + accent sutil que se intensifica en hover) ━━━
       const sliceCells = [];
       for (let i = 0; i < N; i++) {
         const color = PALETTE[i % PALETTE.length];
         const a1 = (i * 360) / N, a2 = ((i + 1) * 360) / N;
         const g = document.createElementNS(svgNS, 'g');
         g.setAttribute('class', 'slice-cell');
-        g.setAttribute('data-i', i);
+        // Variable CSS para que la opacidad/filter del arco use el color de este slice
+        g.style.setProperty('--accent', color);
 
         // Path principal con gradiente radial (color de acento al borde exterior)
         const p = document.createElementNS(svgNS, 'path');
@@ -984,24 +977,11 @@
         p.setAttribute('fill', `url(#grad-slice-${i})`);
         g.appendChild(p);
 
-        // Arco INTERIOR con color y glow (junto al logo central)
-        const innerArc = document.createElementNS(svgNS, 'path');
-        innerArc.setAttribute('class', 'slice-glow-inner');
-        innerArc.setAttribute('d', construirArcoInterior(cx, cy, innerR + 1, a1, a2, N));
-        innerArc.setAttribute('stroke', color);
-        innerArc.setAttribute('stroke-width', '2');
-        innerArc.setAttribute('opacity', '0.65');
-        innerArc.style.filter = `drop-shadow(0 0 4px ${color})`;
-        g.appendChild(innerArc);
-
-        // Arco EXTERIOR con color y glow (en el borde del dial) — rainbow ring
+        // Arco exterior MUY sutil al estar quieto (CSS lo intensifica en hover)
         const outerArc = document.createElementNS(svgNS, 'path');
         outerArc.setAttribute('class', 'slice-glow-outer');
         outerArc.setAttribute('d', construirArcoExterior(cx, cy, outerR - 1, a1, a2, N));
         outerArc.setAttribute('stroke', color);
-        outerArc.setAttribute('stroke-width', '2.5');
-        outerArc.setAttribute('opacity', '0.8');
-        outerArc.style.filter = `drop-shadow(0 0 7px ${color})`;
         g.appendChild(outerArc);
 
         g.addEventListener('click', () => abrirModulo(items[i]));
@@ -1009,14 +989,7 @@
         svg.appendChild(g);
       }
 
-      // ━━━ ANILLO INTERIOR (definición sutil alrededor del logo) ━━━
-      const innerRing = document.createElementNS(svgNS, 'circle');
-      innerRing.setAttribute('cx', cx); innerRing.setAttribute('cy', cy);
-      innerRing.setAttribute('r', innerR - 3);
-      innerRing.setAttribute('fill', 'none');
-      innerRing.setAttribute('stroke', 'rgba(96, 165, 250, 0.4)');
-      innerRing.setAttribute('stroke-width', '1.2');
-      svg.appendChild(innerRing);
+      // (Sin anillo interior — eliminado: hacía efecto "dona" alrededor del logo central)
 
       cont.appendChild(svg);
 
@@ -1036,7 +1009,7 @@
         const color = PALETTE[i % PALETTE.length];
         const ang = ((i * 360) / N) + (360 / N) / 2;
         const rad = (ang - 90) * Math.PI / 180;
-        const cardR = outerR - 78;
+        const cardR = outerR - 90;  // 230 — un poco más al centro para que el chevron tenga clearance del anillo exterior
         const pctR = cardR / VB * 100;
         const cardW = N <= 3 ? 180 : N <= 4 ? 170 : N <= 6 ? 155 : N <= 8 ? 145 : 118;
         const card = document.createElement('div');
