@@ -769,7 +769,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.1</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.2</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
@@ -852,16 +852,16 @@
     };
 
     // Paleta alternando cálido/frío para que gajos adyacentes siempre contrasten entre sí.
-    // Paleta corporativa: azul marca + cian alternando. Sin kinder.
+    // Paleta corporativa: azul marca + gris azulado alternando.
     const PALETTE = [
       '#3B82F6',  // 1. azul marca
-      '#06B6D4',  // 2. cian
+      '#64748B',  // 2. slate gris
       '#3B82F6',  // 3. azul marca
-      '#06B6D4',  // 4. cian
+      '#64748B',  // 4. slate gris
       '#3B82F6',  // 5. azul marca
-      '#06B6D4',  // 6. cian
+      '#64748B',  // 6. slate gris
       '#3B82F6',  // 7. azul marca
-      '#06B6D4'   // 8. cian
+      '#64748B'   // 8. slate gris
     ];
 
     function getIcono(titulo) {
@@ -996,6 +996,13 @@
         defs.appendChild(grad);
       }
       svg.appendChild(defs);
+
+      // ━━━ FONDO OPACO — bloquea partículas detrás del dial ━━━
+      const baseFill = document.createElementNS(svgNS, 'circle');
+      baseFill.setAttribute('cx', cx); baseFill.setAttribute('cy', cy);
+      baseFill.setAttribute('r', outerR);
+      baseFill.setAttribute('fill', '#0B1426');
+      svg.appendChild(baseFill);
 
       // ━━━ ANILLO EXTERIOR (sutil, sin halo extra) ━━━
       const outerRing = document.createElementNS(svgNS, 'circle');
