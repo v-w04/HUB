@@ -127,6 +127,20 @@
       background-clip: text; line-height: 1.1;
     }
     .topbar-title p { font-size: 10px; color: var(--text-secondary); letter-spacing: 0.8px; margin-top: 1px; }
+    .version-tag {
+      display: inline-block;
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 9px;
+      font-weight: 600;
+      color: rgba(147, 197, 253, 0.85);
+      padding: 1.5px 6px;
+      border-radius: 4px;
+      background: rgba(59, 130, 246, 0.15);
+      border: 1px solid rgba(96, 165, 250, 0.25);
+      margin-left: 8px;
+      letter-spacing: 0.5px;
+      vertical-align: middle;
+    }
     .topbar-actions { display: flex; align-items: center; gap: 10px; justify-self: end; }
     .sheet-status {
       display: flex; align-items: center; gap: 8px;
@@ -638,12 +652,15 @@
 
       .app-grid {
         grid-template-columns: 1fr;
-        gap: 36px;
+        gap: 18px;
         padding: 36px 16px 32px;
         max-width: 100%;
       }
       /* ORDEN MOBILE: módulos arriba, sidebars debajo */
-      .center-area   { order: 1; }
+      .center-area   {
+        order: 1;
+        margin-bottom: 18px;  /* +18 + grid gap 18 = 36px total separación con sidebar */
+      }
       .sidebar-left  { order: 2; }
       .sidebar-right { order: 3; }
 
@@ -660,24 +677,24 @@
         display: block;
       }
 
-      /* ━━━ BUBBLES PANEL — módulos como burbujas en un contenedor ━━━ */
+      /* ━━━ BUBBLES PANEL — 2 columnas × 4 filas, burbujas grandes ━━━ */
       .bubbles-grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 24px 14px;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 26px 16px;
         width: 100%;
-        padding: 22px 14px 24px;
+        padding: 26px 18px 28px;
         background: rgba(20, 32, 58, 0.45);
         backdrop-filter: blur(10px);
         border: 1px solid rgba(96, 165, 250, 0.2);
-        border-radius: 20px;
+        border-radius: 22px;
         box-shadow:
           inset 0 1px 0 rgba(255, 255, 255, 0.05),
           0 6px 20px rgba(0, 0, 0, 0.3);
       }
       .bubble-wrap {
         display: flex; flex-direction: column;
-        align-items: center; gap: 10px;
+        align-items: center; gap: 12px;
         cursor: pointer;
         text-decoration: none;
         color: inherit;
@@ -685,30 +702,30 @@
         animation: bubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       }
       @keyframes bubbleIn {
-        from { opacity: 0; transform: translateY(8px) scale(0.9); }
+        from { opacity: 0; transform: translateY(10px) scale(0.92); }
         to   { opacity: 1; transform: translateY(0) scale(1); }
       }
       .bubble {
-        width: 58px; height: 58px;
-        border-radius: 17px;
+        width: 92px; height: 92px;
+        border-radius: 24px;
         background: rgba(15, 23, 42, 0.85);
         backdrop-filter: blur(10px);
-        border: 1.8px solid;
+        border: 2px solid;
         display: flex; align-items: center; justify-content: center;
-        font-size: 24px;
+        font-size: 40px;
         transition: transform 0.2s, box-shadow 0.2s;
         box-shadow:
-          0 0 9px currentColor,
+          0 0 14px currentColor,
           inset 0 1px 0 rgba(255,255,255,0.1),
-          0 3px 10px rgba(0,0,0,0.45);
+          0 6px 16px rgba(0,0,0,0.5);
       }
-      .bubble-wrap:active .bubble { transform: scale(0.9); }
+      .bubble-wrap:active .bubble { transform: scale(0.92); }
       .bubble-label {
-        font-size: 10.5px;
+        font-size: 13px;
         font-weight: 700;
         color: var(--text-primary);
         text-align: center;
-        letter-spacing: 0.3px;
+        letter-spacing: 0.4px;
         line-height: 1.3;
         display: -webkit-box;
         -webkit-line-clamp: 2;
@@ -751,8 +768,8 @@
       </div>
     </div>
     <div class="topbar-title">
-      <h2>Hub de Recursos Humanos</h2>
-      <p>¡Bienvenido a tu centro de accesos!</p>
+      <h2>HUB DE RECURSOS HUMANOS</h2>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.1</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
@@ -835,18 +852,16 @@
     };
 
     // Paleta alternando cálido/frío para que gajos adyacentes siempre contrasten entre sí.
-    // Orden: cálido → frío → cálido → frío...
+    // Paleta corporativa: azul marca + cian alternando. Sin kinder.
     const PALETTE = [
-      '#FBBF24',  // 1. amarillo dorado (cálido)
-      '#06B6D4',  // 2. cyan (frío)
-      '#F472B6',  // 3. rosa (cálido)
-      '#34D399',  // 4. menta (frío)
-      '#FB923C',  // 5. naranja (cálido)
-      '#818CF8',  // 6. indigo (frío)
-      '#EC4899',  // 7. magenta (cálido)
-      '#14B8A6',  // 8. teal (frío)
-      '#FCA5A5',  // 9. coral (cálido) — extra
-      '#A78BFA'   // 10. lavanda (frío) — extra
+      '#3B82F6',  // 1. azul marca
+      '#06B6D4',  // 2. cian
+      '#3B82F6',  // 3. azul marca
+      '#06B6D4',  // 4. cian
+      '#3B82F6',  // 5. azul marca
+      '#06B6D4',  // 6. cian
+      '#3B82F6',  // 7. azul marca
+      '#06B6D4'   // 8. cian
     ];
 
     function getIcono(titulo) {
