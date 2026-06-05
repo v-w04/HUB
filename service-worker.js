@@ -13,7 +13,7 @@
 
 // IMPORTANTE: cambia esta versión cada vez que actualices index.html
 // para forzar a los usuarios a descargar la nueva versión.
-const CACHE_VERSION = 'v1.3.8';
+const CACHE_VERSION = 'v1.4.0';
 const CACHE_NAME = `hub-rh-${CACHE_VERSION}`;
 
 // Archivos que se precachean en la instalación
