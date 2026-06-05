@@ -616,11 +616,34 @@
     /* ━━━ RESPONSIVE ━━━ */
     @media (max-width: 1199px) {
       html, body { overflow: auto; height: auto; }
-      .app-grid { grid-template-columns: 1fr; max-width: 800px; height: auto; overflow: visible; }
+      .app-grid {
+        grid-template-columns: 1fr;
+        max-width: 1080px;
+        height: auto;
+        overflow: visible;
+        padding: 28px 28px 40px;
+        gap: 28px;
+      }
       aside.sidebar { overflow: visible; height: auto; }
     }
     @media (max-width: 1199px) and (min-width: 901px) {
-      aside.sidebar { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+      aside.sidebar {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 22px;
+      }
+      /* Tablet: cards más legibles */
+      .card { padding: 22px; }
+      .card-header { gap: 14px; }
+      .card-icon { width: 44px; height: 44px; font-size: 18px; }
+      .card-title { font-size: 16px; }
+      .card .label, .card .desc, .card .meta,
+      .event-title, .anuncio-title, .acceso-title,
+      .cumple-name { font-size: 15px; }
+      .event-time, .anuncio-desc, .cumple-date { font-size: 13px; }
+      .card .link, .card .footer-link { font-size: 14px; }
+      /* Dial: respira mejor en tablet */
+      .dial-wrapper { max-width: 640px; }
     }
 
     @media (max-width: 900px) {
@@ -821,7 +844,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.4</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.5</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
