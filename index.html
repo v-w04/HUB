@@ -113,8 +113,8 @@
       box-shadow: 0 0 18px rgba(59,130,246,0.7);
       overflow: hidden; flex-shrink: 0;
     }
-    .topbar-logo img { width: 100%; height: 100%; object-fit: cover; display: block; }
-    .topbar-logo .fallback { color: white; font-weight: 300; font-size: 24px; letter-spacing: -2px; line-height: 1; }
+    .topbar-logo img { width: 72%; height: 72%; object-fit: contain; display: block; }
+    .topbar-logo .fallback { color: white; font-weight: 300; font-size: 22px; letter-spacing: -2px; line-height: 1; }
     .topbar-text h1 { font-size: 13px; font-weight: 700; letter-spacing: 2.5px; color: var(--text-primary); text-transform: uppercase; line-height: 1.1; }
     .topbar-text p { font-size: 9px; color: #60A5FA; letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
     .topbar-title { justify-self: center; text-align: center; }
@@ -520,7 +520,7 @@
       animation: pulseRing 3s ease-out infinite;
       pointer-events: none;
     }
-    .dial-center img { width: 78%; height: 78%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
+    .dial-center img { width: 65%; height: 65%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
     .dial-center .fallback { font-size: 5em; font-weight: 300; color: white; letter-spacing: -3px; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
     @keyframes pulseLogo {
       0%, 100% { transform: translate(-50%, -50%) scale(1); }
@@ -638,8 +638,8 @@
 
       .app-grid {
         grid-template-columns: 1fr;
-        gap: 32px;
-        padding: 22px 16px 28px;
+        gap: 48px;
+        padding: 22px 16px 32px;
         max-width: 100%;
       }
       /* ORDEN MOBILE: módulos arriba, sidebars debajo */
@@ -648,7 +648,7 @@
       .sidebar-right { order: 3; }
 
       /* Más aire entre las cards del sidebar en mobile */
-      aside.sidebar { gap: 22px; }
+      aside.sidebar { gap: 32px; }
 
       .center-area { gap: 0; }
       .dial-wrapper {
