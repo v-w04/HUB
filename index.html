@@ -492,7 +492,7 @@
       box-shadow: 0 0 28px currentColor, 0 0 55px currentColor;
       filter: brightness(1.25);
     }
-    .slice-title { font-size: 14px; font-weight: 700; line-height: 1.15; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .slice-title { font-size: 14px; font-weight: 700; line-height: 1.15; letter-spacing: 0.5px; margin-bottom: 4px; color: var(--text-primary); }
     .slice-desc { font-size: 11.5px; line-height: 1.35; color: var(--text-secondary); padding: 0 4px; }
 
     .dial-center {
@@ -823,7 +823,20 @@
       ]
     };
 
-    const PALETTE = ['#F59E0B','#06B6D4','#10B981','#A78BFA','#F472B6','#60A5FA','#FB923C','#84CC16','#EC4899','#22D3EE'];
+    // Paleta alternando cálido/frío para que gajos adyacentes siempre contrasten entre sí.
+    // Orden: cálido → frío → cálido → frío...
+    const PALETTE = [
+      '#FBBF24',  // 1. amarillo dorado (cálido)
+      '#06B6D4',  // 2. cyan (frío)
+      '#F472B6',  // 3. rosa (cálido)
+      '#34D399',  // 4. menta (frío)
+      '#FB923C',  // 5. naranja (cálido)
+      '#818CF8',  // 6. indigo (frío)
+      '#EC4899',  // 7. magenta (cálido)
+      '#14B8A6',  // 8. teal (frío)
+      '#FCA5A5',  // 9. coral (cálido) — extra
+      '#A78BFA'   // 10. lavanda (frío) — extra
+    ];
 
     function getIcono(titulo) {
       const t = (titulo || '').toLowerCase();
