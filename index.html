@@ -646,19 +646,41 @@
       .sheet-status .label { display: none; }
       .sheet-status { padding: 6px; }
 
+      /* ━━━ CRÍTICO: liberar alturas fijas del desktop en mobile ━━━ */
       .app-grid {
         grid-template-columns: 1fr;
         gap: 32px;
         padding: 32px 16px 40px;
         max-width: 100%;
+        height: auto !important;
+        min-height: 0 !important;
+        overflow: visible !important;
       }
-      /* ORDEN MOBILE: módulos arriba, sidebars debajo */
-      .center-area   { order: 1; margin-bottom: 0; }
+      .center-area {
+        display: block !important;
+        height: auto !important;
+        min-height: 0 !important;
+        gap: 0;
+        order: 1;
+        margin-bottom: 0;
+      }
+      .hub {
+        display: block !important;
+        flex: none !important;
+        height: auto !important;
+        min-height: 0 !important;
+        width: 100%;
+      }
       .sidebar-left  { order: 2; }
       .sidebar-right { order: 3; }
-
-      /* Cards hermanas dentro del sidebar — gap chico, son del mismo grupo */
-      aside.sidebar { gap: 18px; }
+      aside.sidebar {
+        display: flex !important;
+        flex-direction: column;
+        justify-content: flex-start !important;
+        height: auto !important;
+        overflow: visible !important;
+        gap: 18px;
+      }
       /* ORDEN MOBILE: módulos arriba, sidebars debajo */
       .center-area   {
         order: 1;
@@ -799,7 +821,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.3</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.4</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
