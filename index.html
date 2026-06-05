@@ -638,8 +638,8 @@
 
       .app-grid {
         grid-template-columns: 1fr;
-        gap: 48px;
-        padding: 22px 16px 32px;
+        gap: 36px;
+        padding: 36px 16px 32px;
         max-width: 100%;
       }
       /* ORDEN MOBILE: módulos arriba, sidebars debajo */
@@ -647,8 +647,8 @@
       .sidebar-left  { order: 2; }
       .sidebar-right { order: 3; }
 
-      /* Más aire entre las cards del sidebar en mobile */
-      aside.sidebar { gap: 32px; }
+      /* Cards hermanas dentro del sidebar — gap chico, son del mismo grupo */
+      aside.sidebar { gap: 18px; }
 
       .center-area { gap: 0; }
       .dial-wrapper {
