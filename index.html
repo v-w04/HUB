@@ -470,8 +470,7 @@
     }
     .dial-wrapper.hovering .dial-center {
       box-shadow:
-        0 0 50px rgba(59,130,246,0.9),
-        0 0 100px rgba(59,130,246,0.3),
+        0 0 10px rgba(59,130,246,0.25),
         inset 0 2px 0 rgba(255,255,255,0.45);
     }
 
@@ -517,8 +516,6 @@
       border-radius: 50%;
       background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
       box-shadow:
-        0 0 32px rgba(59,130,246,0.75),
-        0 0 65px rgba(59,130,246,0.18),
         inset 0 2px 0 rgba(255,255,255,0.35);
       display: flex; align-items: center; justify-content: center;
       overflow: hidden;
@@ -526,14 +523,7 @@
       animation: pulseLogo 4s ease-in-out infinite;
       transition: box-shadow 0.4s;
     }
-    .dial-center::before {
-      content: '';
-      position: absolute; inset: -10px;
-      border-radius: 50%;
-      border: 2px solid rgba(96,165,250,0.4);
-      animation: pulseRing 3s ease-out infinite;
-      pointer-events: none;
-    }
+    .dial-center::before { display: none; }
     .dial-center img { width: 65%; height: 65%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
     .dial-center .fallback { font-size: 5em; font-weight: 300; color: white; letter-spacing: -3px; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
     @keyframes pulseLogo {
@@ -769,7 +759,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.2</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.4</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
@@ -852,16 +842,16 @@
     };
 
     // Paleta alternando cálido/frío para que gajos adyacentes siempre contrasten entre sí.
-    // Paleta corporativa: azul marca + gris azulado alternando.
+    // Paleta corporativa: dos tonos de azul alternando.
     const PALETTE = [
-      '#3B82F6',  // 1. azul marca
-      '#64748B',  // 2. slate gris
+      '#3B82F6',  // 1. azul marca (blue-500)
+      '#60A5FA',  // 2. azul claro (blue-400)
       '#3B82F6',  // 3. azul marca
-      '#64748B',  // 4. slate gris
-      '#3B82F6',  // 5. azul marca
-      '#64748B',  // 6. slate gris
-      '#3B82F6',  // 7. azul marca
-      '#64748B'   // 8. slate gris
+      '#60A5FA',  // 4. azul claro
+      '#3B82F6',
+      '#60A5FA',
+      '#3B82F6',
+      '#60A5FA'
     ];
 
     function getIcono(titulo) {
@@ -983,8 +973,8 @@
         grad.setAttribute('cy', cy);
         grad.setAttribute('r', outerR);
         const stops = [
-          { o: '30%', c: '#15233E', a: '0.20' },
-          { o: '100%',c: color,    a: '0.32' }
+          { o: '0%',  c: color, a: '0.08' },
+          { o: '100%',c: color, a: '0.34' }
         ];
         stops.forEach(({o,c,a}) => {
           const s = document.createElementNS(svgNS, 'stop');
