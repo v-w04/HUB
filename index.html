@@ -423,8 +423,8 @@
     .dial-wrapper { position: relative; width: 100%; max-width: 760px; aspect-ratio: 1; max-height: 100%; transition: filter 0.4s; }
     .dial-svg { position: absolute; inset: 0; width: 100%; height: 100%; filter: drop-shadow(0 14px 44px rgba(0,0,0,0.6)); }
     .dial-svg .slice {
-      stroke: rgba(11,18,36,0.85);
-      stroke-width: 2;
+      stroke: rgba(11,18,36,0.42);
+      stroke-width: 1;
       transition: fill 0.35s ease, opacity 0.35s ease;
       cursor: pointer;
     }
@@ -494,8 +494,6 @@
     }
     .slice-title { font-size: 14px; font-weight: 700; line-height: 1.15; letter-spacing: 0.5px; margin-bottom: 4px; }
     .slice-desc { font-size: 11.5px; line-height: 1.35; color: var(--text-secondary); padding: 0 4px; }
-    .slice-chevron { margin-top: 7px; font-size: 12px; color: rgba(96,165,250,0.65); transition: transform 0.3s, color 0.3s; }
-    .slice-cell:hover .slice-chevron { color: #93C5FD; transform: translateY(3px); }
 
     .dial-center {
       position: absolute;
@@ -633,73 +631,82 @@
       .topbar-brand   { grid-area: brand; }
       .topbar-actions { grid-area: actions; }
       .topbar-title   { grid-area: title; }
-      .topbar-title h2 { font-size: 22px; }
+      .topbar-title h2 { font-size: 20px; letter-spacing: 3px; }
       .topbar-title p  { font-size: 11px; }
       .sheet-status .label { display: none; }
       .sheet-status { padding: 6px; }
 
-      .app-grid { grid-template-columns: 1fr; gap: 16px; padding: 14px; max-width: 100%; }
-
-      .dial-wrapper { width: 100%; aspect-ratio: auto; max-width: none; display: flex; flex-direction: column; gap: 14px; }
-
-      .mobile-center-logo {
-        align-self: center;
-        width: 92px; height: 92px;
-        border-radius: 50%;
-        background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
-        box-shadow: 0 0 35px rgba(59,130,246,0.6), inset 0 2px 0 rgba(255,255,255,0.3);
-        display: flex; align-items: center; justify-content: center;
-        overflow: hidden;
-        position: relative;
-        margin: 2px 0;
+      .app-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        padding: 16px 14px;
+        max-width: 100%;
       }
-      .mobile-center-logo::before {
-        content: '';
-        position: absolute; inset: -6px;
-        border-radius: 50%;
-        border: 2px solid rgba(96,165,250,0.4);
-        animation: pulseRing 3s ease-out infinite;
-      }
-      .mobile-center-logo img { width: 78%; height: 78%; object-fit: contain; filter: drop-shadow(0 2px 6px rgba(0,0,0,0.4)); }
-      .mobile-center-logo .fallback { color: white; font-size: 50px; font-weight: 300; letter-spacing: -3px; line-height: 1; }
+      /* ORDEN MOBILE: módulos arriba, sidebars debajo */
+      .center-area   { order: 1; }
+      .sidebar-left  { order: 2; }
+      .sidebar-right { order: 3; }
 
-      .mobile-cards { display: flex; flex-direction: column; gap: 11px; }
-      .m-card {
-        display: flex; align-items: center; gap: 14px;
-        padding: 13px 15px;
-        background: rgba(30,41,59,0.65);
-        backdrop-filter: blur(12px);
-        border: 1.5px solid rgba(96,165,250,0.3);
-        border-radius: 14px;
-        cursor: pointer; text-decoration: none;
-        color: var(--text-primary);
-        box-shadow:
-          inset 0 1px 0 rgba(255,255,255,0.06),
-          0 4px 14px rgba(0,0,0,0.3);
-        transition: transform 0.25s, background 0.25s, border-color 0.25s;
+      .center-area { gap: 0; }
+      .dial-wrapper {
+        width: 100%;
+        aspect-ratio: auto;
+        max-width: none;
+        max-height: none;
+        height: auto;
+        display: block;
+      }
+
+      /* ━━━ BUBBLES GRID — módulos como burbujas (4 cols × 2 rows) ━━━ */
+      .bubbles-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 18px 10px;
+        width: 100%;
+        padding: 4px 0;
+      }
+      .bubble-wrap {
+        display: flex; flex-direction: column;
+        align-items: center; gap: 8px;
+        cursor: pointer;
+        text-decoration: none;
+        color: inherit;
         opacity: 0;
-        animation: slideIn 0.4s ease-out forwards;
+        animation: bubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
       }
-      @keyframes slideIn {
-        from { opacity: 0; transform: translateX(-12px); }
-        to   { opacity: 1; transform: translateX(0); }
+      @keyframes bubbleIn {
+        from { opacity: 0; transform: translateY(8px) scale(0.9); }
+        to   { opacity: 1; transform: translateY(0) scale(1); }
       }
-      .m-card:active { transform: translateX(4px); background: rgba(30,41,59,0.9); border-color: rgba(96,165,250,0.6); }
-      .m-card .icon {
-        flex-shrink: 0;
-        width: 50px; height: 50px;
-        border-radius: 14px;
-        background: rgba(15,23,42,0.6);
-        border: 1.5px solid;
+      .bubble {
+        width: 60px; height: 60px;
+        border-radius: 18px;
+        background: rgba(15, 23, 42, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1.8px solid;
         display: flex; align-items: center; justify-content: center;
-        font-size: 22px;
-        box-shadow: 0 0 16px currentColor;
+        font-size: 26px;
+        transition: transform 0.2s, box-shadow 0.2s;
+        box-shadow:
+          0 0 14px currentColor,
+          inset 0 1px 0 rgba(255,255,255,0.1),
+          0 4px 12px rgba(0,0,0,0.4);
       }
-      .m-card .info { flex: 1; min-width: 0; }
-      .m-card .info .t { font-size: 15px; font-weight: 700; margin-bottom: 3px; letter-spacing: 0.3px; }
-      .m-card .info .d { font-size: 12px; color: var(--text-secondary); line-height: 1.4; }
-      .m-card .chev { color: rgba(96,165,250,0.6); font-size: 14px; flex-shrink: 0; transition: transform 0.25s, color 0.25s; }
-      .m-card:active .chev { transform: translateX(4px); color: #93C5FD; }
+      .bubble-wrap:active .bubble { transform: scale(0.9); }
+      .bubble-label {
+        font-size: 10.5px;
+        font-weight: 700;
+        color: var(--text-primary);
+        text-align: center;
+        letter-spacing: 0.3px;
+        line-height: 1.2;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        word-break: break-word;
+        max-width: 100%;
+      }
     }
 
     @media (max-width: 580px) {
@@ -711,9 +718,9 @@
       .topbar-text h1 { font-size: 11px; }
       .topbar-text p  { font-size: 8px; }
       .topbar-logo { width: 38px; height: 38px; }
-      .topbar-title h2 { font-size: 19px; }
-      .m-card { padding: 12px 14px; gap: 12px; }
-      .m-card .icon { width: 46px; height: 46px; font-size: 20px; }
+      .topbar-title h2 { font-size: 18px; letter-spacing: 2px; }
+      .bubble { width: 54px; height: 54px; font-size: 23px; }
+      .bubble-label { font-size: 9.5px; }
     }
   </style>
 </head>
@@ -937,8 +944,8 @@
         grad.setAttribute('cy', cy);
         grad.setAttribute('r', outerR);
         const stops = [
-          { o: '30%', c: '#15233E', a: '0.65' },
-          { o: '100%',c: color,    a: '0.32' }
+          { o: '30%', c: '#15233E', a: '0.42' },
+          { o: '100%',c: color,    a: '0.30' }
         ];
         stops.forEach(({o,c,a}) => {
           const s = document.createElementNS(svgNS, 'stop');
@@ -1025,7 +1032,6 @@
           </div>
           <div class="slice-title">${escapar(items[i].titulo)}</div>
           <div class="slice-desc">${escapar(items[i].descripcion)}</div>
-          <div class="slice-chevron"><i class="fas fa-arrow-down"></i></div>
         `;
         sliceContents.push(card);
         cont.appendChild(card);
@@ -1090,35 +1096,22 @@
     }
 
     function renderizarMovil(cont, items) {
-      const logo = document.createElement('div');
-      logo.className = 'mobile-center-logo';
-      logo.innerHTML = `
-        <img src="logo-electronics.png" alt="Electronics México"
-             onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
-        <span class="fallback" style="display:none;">e</span>
-      `;
-      cont.appendChild(logo);
-
       const wrap = document.createElement('div');
-      wrap.className = 'mobile-cards';
+      wrap.className = 'bubbles-grid';
       items.forEach((it, i) => {
         const color = PALETTE[i % PALETTE.length];
-        const card = document.createElement('a');
-        card.href = '#';
-        card.className = 'm-card';
-        card.style.animationDelay = (i * 0.07) + 's';
-        card.innerHTML = `
-          <div class="icon" style="color:${color}; border-color:${hexToRgba(color, 0.5)};">
+        const a = document.createElement('a');
+        a.href = '#';
+        a.className = 'bubble-wrap';
+        a.style.animationDelay = (i * 0.05) + 's';
+        a.innerHTML = `
+          <div class="bubble" style="color:${color}; border-color:${hexToRgba(color, 0.6)};">
             <i class="fas ${getIcono(it.titulo)}"></i>
           </div>
-          <div class="info">
-            <div class="t">${escapar(it.titulo)}</div>
-            <div class="d">${escapar(it.descripcion)}</div>
-          </div>
-          <i class="fas fa-chevron-right chev"></i>
+          <div class="bubble-label">${escapar(it.titulo)}</div>
         `;
-        card.addEventListener('click', e => { e.preventDefault(); abrirModulo(it); });
-        wrap.appendChild(card);
+        a.addEventListener('click', e => { e.preventDefault(); abrirModulo(it); });
+        wrap.appendChild(a);
       });
       cont.appendChild(wrap);
     }
