@@ -682,10 +682,11 @@
     }
 
     @media (max-width: 900px) {
-      /* TOPBAR MOBILE — compacto, respeta safe area (PWA fullscreen + notch) */
+      /* TOPBAR MOBILE — sticky con auto-hide on scroll (Twitter/IG-like) */
       .topbar {
-        position: relative !important;
-        z-index: auto !important;
+        position: sticky !important;
+        top: 0;
+        z-index: 100;
         grid-template-columns: 1fr auto;
         grid-template-areas: "brand actions" "title title";
         gap: 6px;
@@ -694,11 +695,16 @@
         padding-right: calc(env(safe-area-inset-right, 0px) + 14px);
         padding-bottom: 12px;
         height: auto;
-        box-shadow: none !important;
+        box-shadow: 0 2px 12px rgba(0,0,0,0.5);
         backdrop-filter: none !important;
         -webkit-backdrop-filter: none !important;
         background: rgb(15, 23, 42) !important;
         border-bottom: 1px solid rgba(96, 165, 250, 0.18);
+        transition: transform 0.28s ease-out;
+        will-change: transform;
+      }
+      .topbar.topbar-hidden {
+        transform: translateY(-100%);
       }
       .topbar-brand   { grid-area: brand; }
       .topbar-actions { grid-area: actions; }
@@ -893,7 +899,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.5.2</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v2.0.0</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
@@ -1475,6 +1481,58 @@
         p.style.animationDelay = (Math.random() * 22) + 's';
         cont.appendChild(p);
       }
+    })();
+
+    /* ━━━ AUTO-HIDE TOPBAR ON SCROLL (mobile only) ━━━
+       Scrolling down → hide topbar
+       Scrolling up → show topbar immediately
+       Always show at top of page */
+    (function setupTopbarAutoHide() {
+      const topbar = document.querySelector('.topbar');
+      if (!topbar) return;
+
+      let lastY = window.scrollY;
+      let ticking = false;
+      const HIDE_THRESHOLD = 60;  // px de scroll antes de empezar a ocultar
+      const UP_TOLERANCE  = 4;    // px de tolerancia para no parpadear
+
+      function update() {
+        const isMobile = window.innerWidth <= 900;
+        if (!isMobile) {
+          topbar.classList.remove('topbar-hidden');
+          ticking = false;
+          return;
+        }
+
+        const y = window.scrollY;
+        const delta = y - lastY;
+
+        if (y < HIDE_THRESHOLD) {
+          // Cerca del tope — siempre mostrar
+          topbar.classList.remove('topbar-hidden');
+        } else if (delta > 2) {
+          // Bajando — ocultar
+          topbar.classList.add('topbar-hidden');
+        } else if (delta < -UP_TOLERANCE) {
+          // Subiendo — mostrar
+          topbar.classList.remove('topbar-hidden');
+        }
+
+        lastY = y;
+        ticking = false;
+      }
+
+      window.addEventListener('scroll', () => {
+        if (!ticking) {
+          requestAnimationFrame(update);
+          ticking = true;
+        }
+      }, { passive: true });
+
+      // Al redimensionar, resetear estado
+      window.addEventListener('resize', () => {
+        if (window.innerWidth > 900) topbar.classList.remove('topbar-hidden');
+      });
     })();
 
     let resizeTimer = null;
