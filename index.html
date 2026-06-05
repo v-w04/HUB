@@ -108,9 +108,9 @@
     .topbar-logo {
       width: 42px; height: 42px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #60A5FA, #2563EB);
+      background: linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #22D3EE 100%);
       display: flex; align-items: center; justify-content: center;
-      box-shadow: 0 0 18px rgba(59,130,246,0.7);
+      box-shadow: 0 0 14px rgba(99,102,241,0.45);
       overflow: hidden; flex-shrink: 0;
     }
     .topbar-logo img { width: 72%; height: 72%; object-fit: contain; display: block; }
@@ -512,7 +512,7 @@
       transform: translate(-50%, -50%);
       width: 22%; height: 22%;
       border-radius: 50%;
-      background: linear-gradient(135deg, #60A5FA 0%, #3B82F6 50%, #1D4ED8 100%);
+      background: linear-gradient(135deg, #6366F1 0%, #3B82F6 50%, #22D3EE 100%);
       box-shadow:
         inset 0 2px 0 rgba(255,255,255,0.35);
       display: flex; align-items: center; justify-content: center;
@@ -784,7 +784,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.7</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.3.8</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
@@ -867,16 +867,16 @@
     };
 
     // Paleta alternando cálido/frío para que gajos adyacentes siempre contrasten entre sí.
-    // Paleta corporativa: dos tonos de azul alternando.
+    // Paleta del logo: índigo → azul → cian (gradiente real del símbolo "e")
     const PALETTE = [
-      '#3B82F6',  // 1. azul marca (blue-500)
-      '#60A5FA',  // 2. azul claro (blue-400)
-      '#3B82F6',  // 3. azul marca
-      '#60A5FA',  // 4. azul claro
-      '#3B82F6',
-      '#60A5FA',
-      '#3B82F6',
-      '#60A5FA'
+      '#6366F1',  // 1. índigo (top del logo)
+      '#3B82F6',  // 2. azul marca
+      '#06B6D4',  // 3. cian profundo
+      '#22D3EE',  // 4. cian claro (bottom del logo)
+      '#6366F1',  // 5.
+      '#3B82F6',  // 6.
+      '#06B6D4',  // 7.
+      '#22D3EE'   // 8.
     ];
 
     function getIcono(titulo) {
