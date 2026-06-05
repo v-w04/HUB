@@ -119,7 +119,9 @@
     .topbar-text p { font-size: 9px; color: #60A5FA; letter-spacing: 3px; text-transform: uppercase; margin-top: 2px; }
     .topbar-title { justify-self: center; text-align: center; }
     .topbar-title h2 {
-      font-size: 24px; font-weight: 700; letter-spacing: 0.3px;
+      font-size: 22px; font-weight: 800;
+      letter-spacing: 4px;
+      text-transform: uppercase;
       background: linear-gradient(135deg, #F1F5F9 0%, #93C5FD 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; line-height: 1.1;
@@ -164,9 +166,9 @@
     .app-grid {
       position: relative; z-index: 2;
       display: grid;
-      grid-template-columns: 290px 1fr 290px;
-      gap: 18px;
-      padding: 16px 20px;
+      grid-template-columns: 320px minmax(0, 1fr) 320px;
+      gap: 22px;
+      padding: 18px 24px;
       height: calc(100vh - 64px);
       max-width: 1700px;
       margin: 0 auto;
@@ -177,6 +179,7 @@
       align-items: center; justify-content: center;
       gap: 16px;
       height: 100%; min-height: 0;
+      width: 100%;
     }
     .hub {
       flex: 1; width: 100%;
@@ -184,7 +187,9 @@
       min-height: 0;
     }
     aside.sidebar {
-      display: flex; flex-direction: column; gap: 14px;
+      display: flex; flex-direction: column;
+      justify-content: safe center;
+      gap: 18px;
       height: 100%;
       overflow-y: auto; overflow-x: hidden;
       scrollbar-width: none; -ms-overflow-style: none;
@@ -443,24 +448,24 @@
       to   { opacity: 1; transform: translate(-50%, -50%) scale(1); }
     }
     .slice-icon {
-      width: 44px; height: 44px;
-      margin: 0 auto 6px;
-      border-radius: 12px;
+      width: 50px; height: 50px;
+      margin: 0 auto 8px;
+      border-radius: 13px;
       background: rgba(15,23,42,0.6);
       border: 1.5px solid;
       display: flex; align-items: center; justify-content: center;
-      font-size: 21px;
-      box-shadow: 0 0 16px currentColor;
+      font-size: 24px;
+      box-shadow: 0 0 18px currentColor;
       transition: all 0.3s;
     }
     .slice-cell:hover .slice-icon {
       transform: rotate(-8deg) scale(1.12);
-      box-shadow: 0 0 26px currentColor, 0 0 50px currentColor;
+      box-shadow: 0 0 28px currentColor, 0 0 55px currentColor;
       filter: brightness(1.25);
     }
-    .slice-title { font-size: 13px; font-weight: 700; line-height: 1.15; letter-spacing: 0.4px; margin-bottom: 3px; }
-    .slice-desc { font-size: 11px; line-height: 1.3; color: var(--text-secondary); padding: 0 4px; }
-    .slice-chevron { margin-top: 5px; font-size: 11px; color: rgba(96,165,250,0.65); transition: transform 0.3s, color 0.3s; }
+    .slice-title { font-size: 14px; font-weight: 700; line-height: 1.15; letter-spacing: 0.5px; margin-bottom: 4px; }
+    .slice-desc { font-size: 11.5px; line-height: 1.35; color: var(--text-secondary); padding: 0 4px; }
+    .slice-chevron { margin-top: 7px; font-size: 12px; color: rgba(96,165,250,0.65); transition: transform 0.3s, color 0.3s; }
     .slice-cell:hover .slice-chevron { color: #93C5FD; transform: translateY(3px); }
 
     .dial-center {
@@ -496,39 +501,6 @@
     @keyframes pulseRing {
       0%   { transform: scale(1);   opacity: 0.8; }
       100% { transform: scale(1.6); opacity: 0;   }
-    }
-
-    /* ━━━ Search bar ━━━ */
-    .search-bar {
-      width: 100%; max-width: 520px;
-      display: flex; align-items: center; gap: 10px;
-      padding: 11px 18px;
-      background: rgba(20,32,58,0.75);
-      backdrop-filter: blur(12px);
-      border: 1.5px solid rgba(96,165,250,0.35);
-      border-radius: 13px;
-      cursor: pointer;
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.06),
-        0 4px 16px rgba(0,0,0,0.3);
-      transition: all 0.25s;
-      flex-shrink: 0;
-    }
-    .search-bar:hover {
-      border-color: rgba(96,165,250,0.65);
-      background: rgba(20,32,58,0.9);
-      box-shadow:
-        inset 0 1px 0 rgba(255,255,255,0.08),
-        0 6px 22px rgba(59,130,246,0.25);
-    }
-    .search-bar i { color: #60A5FA; font-size: 15px; }
-    .search-bar .placeholder { flex: 1; color: var(--text-secondary); font-size: 13px; font-weight: 500; }
-    .search-bar .shortcut {
-      font-size: 10px; font-weight: 700; color: var(--text-tertiary);
-      padding: 3px 7px; border-radius: 5px;
-      background: rgba(15,23,42,0.7);
-      border: 1px solid rgba(96,165,250,0.2);
-      letter-spacing: 0.5px;
     }
 
     /* ━━━ Loading / Empty ━━━ */
@@ -755,11 +727,6 @@
           </div>
         </div>
       </div>
-      <div class="search-bar" onclick="alertaProximamente()">
-        <i class="fas fa-magnifying-glass"></i>
-        <div class="placeholder">Buscar módulos, documentos, personas…</div>
-        <span class="shortcut">⌘ K</span>
-      </div>
     </div>
     <aside class="sidebar sidebar-right" id="sidebar-right"></aside>
   </main>
@@ -923,7 +890,6 @@
     function renderizarDial(cont, items) {
       const N = items.length;
       const VB = 700, cx = VB/2, cy = VB/2, outerR = 320, innerR = 95;
-      const cardR = (outerR + innerR) / 2 - 5;
       const svgNS = 'http://www.w3.org/2000/svg';
 
       const svg = document.createElementNS(svgNS, 'svg');
@@ -973,8 +939,11 @@
         const color = PALETTE[i % PALETTE.length];
         const ang = ((i * 360) / N) + (360 / N) / 2;
         const rad = (ang - 90) * Math.PI / 180;
+        // Empujar las cards hacia afuera (más cerca del borde exterior del slice)
+        const cardR = outerR - 78;  // antes: (outerR + innerR)/2 - 5 = 197.5; ahora: 242
         const pctR = cardR / VB * 100;
-        const cardW = N <= 3 ? 170 : N <= 4 ? 160 : N <= 6 ? 145 : N <= 8 ? 128 : 110;
+        // Cards más anchas para tener más respiración
+        const cardW = N <= 3 ? 180 : N <= 4 ? 170 : N <= 6 ? 155 : N <= 8 ? 145 : 118;
         const card = document.createElement('div');
         card.className = 'slice-content';
         card.style.left = (50 + pctR * Math.cos(rad)) + '%';
@@ -1249,13 +1218,6 @@
           renderizarHub(datosActuales);
         }
       }, 250);
-    });
-
-    document.addEventListener('keydown', (e) => {
-      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
-        e.preventDefault();
-        alertaProximamente();
-      }
     });
 
     modoActual = window.innerWidth <= 900 ? 'movil' : 'dial';
