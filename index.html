@@ -624,11 +624,18 @@
     }
 
     @media (max-width: 900px) {
+      /* TOPBAR MOBILE — flat, no shadow that bleeds, no blur, no overlap */
       .topbar {
+        position: static !important;
+        z-index: auto !important;
         grid-template-columns: 1fr auto;
         grid-template-areas: "brand actions" "title title";
-        gap: 10px; padding: 10px 16px 12px;
+        gap: 10px; padding: 14px 16px 16px;
         height: auto;
+        box-shadow: none !important;
+        backdrop-filter: none !important;
+        -webkit-backdrop-filter: none !important;
+        background: rgba(15, 23, 42, 1) !important;
       }
       .topbar-brand   { grid-area: brand; }
       .topbar-actions { grid-area: actions; }
@@ -641,8 +648,10 @@
       .app-grid {
         grid-template-columns: 1fr;
         gap: 18px;
-        padding: 48px 16px 32px;
+        padding: 24px 16px 32px;
         max-width: 100%;
+        position: relative;
+        z-index: 1;
       }
       /* ORDEN MOBILE: módulos arriba, sidebars debajo */
       .center-area   {
@@ -677,6 +686,9 @@
           inset 0 1px 0 rgba(255, 255, 255, 0.06),
           0 12px 36px rgba(0, 0, 0, 0.55);
         overflow: hidden;
+        position: relative;
+        z-index: 1;
+        display: block;
       }
       .modules-header {
         display: flex;
@@ -785,7 +797,7 @@
     </div>
     <div class="topbar-title">
       <h2>HUB DE RECURSOS HUMANOS</h2>
-      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.0</span></p>
+      <p>¡Bienvenido a tu centro de accesos! <span class="version-tag">v1.4.1</span></p>
     </div>
     <div class="topbar-actions">
       <div id="sheet-status" class="sheet-status loading">
