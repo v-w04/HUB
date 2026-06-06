@@ -33,9 +33,9 @@
     html, body { filter: none !important; }
 
     :root {
-      --primary: #6366F1;
-      --primary-dark: #4F46E5;
-      --secondary: #8B5CF6;
+      --primary: #3B82F6;
+      --primary-dark: #2563EB;
+      --secondary: #6366F1;
       --bg-primary: #0F172A;
       --bg-secondary: #1E293B;
       --text-primary: #F1F5F9;
@@ -105,10 +105,10 @@
     .topbar-logo {
       width: 44px; height: 44px;
       border-radius: 50%;
-      background: linear-gradient(135deg, #6366F1 0%, #8B5CF6 100%);
+      background: linear-gradient(135deg, #3B82F6 0%, #6366F1 100%);
       display: flex; align-items: center; justify-content: center;
       overflow: hidden; flex-shrink: 0;
-      box-shadow: 0 0 16px rgba(139, 92, 246, 0.4);
+      box-shadow: 0 0 16px rgba(99, 102, 241, 0.35);
     }
     .topbar-logo img { width: 72%; height: 72%; object-fit: contain; display: block; }
     .topbar-logo .fallback { color: white; font-weight: 300; font-size: 22px; letter-spacing: -2px; line-height: 1; }
@@ -134,9 +134,9 @@
       font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
       font-size: 9px;
       font-weight: 600;
-      color: rgba(196, 181, 253, 0.9);
-      background: rgba(139, 92, 246, 0.10);
-      border: 1px solid rgba(139, 92, 246, 0.25);
+      color: rgba(147, 197, 253, 0.9);
+      background: rgba(59, 130, 246, 0.10);
+      border: 1px solid rgba(96, 165, 250, 0.25);
       border-radius: 3px;
       letter-spacing: 0.3px;
     }
@@ -145,7 +145,7 @@
     .topbar-title h2 {
       font-size: 22px; font-weight: 600;
       letter-spacing: 0.2px;
-      background: linear-gradient(135deg, #FFFFFF 0%, #C4B5FD 45%, #A78BFA 100%);
+      background: linear-gradient(135deg, #FFFFFF 0%, #93C5FD 50%, #60A5FA 100%);
       -webkit-background-clip: text; -webkit-text-fill-color: transparent;
       background-clip: text; line-height: 1.1;
       white-space: nowrap;
@@ -568,7 +568,7 @@
       transform: translate(-50%, -50%);
       width: 22%; height: 22%;
       border-radius: 50%;
-      background: linear-gradient(135deg, #6366F1 0%, #7C3AED 50%, #A78BFA 100%);
+      background: linear-gradient(135deg, #4F46E5 0%, #3B82F6 50%, #60A5FA 100%);
       box-shadow:
         inset 0 2px 0 rgba(255,255,255,0.35);
       display: flex; align-items: center; justify-content: center;
@@ -914,7 +914,7 @@
       </div>
       <div class="topbar-text">
         <h1>Electronics México</h1>
-        <p>Intranet corporativa <span class="ver">v2.1.1</span></p>
+        <p>Intranet corporativa <span class="ver">v2.1.2</span></p>
       </div>
     </div>
     <div class="topbar-title">
@@ -984,7 +984,7 @@
       ],
       anuncios: [
         { icono: 'fa-umbrella-beach', color: '#F59E0B', titulo: 'Sistema de vacaciones', subtitulo: 'Conoce los cambios aquí', leido: false },
-        { icono: 'fa-clipboard-list', color: '#8B5CF6', titulo: 'Encuesta de satisfacción', subtitulo: 'Tu opinión nos importa', leido: false }
+        { icono: 'fa-clipboard-list', color: '#6366F1', titulo: 'Encuesta de satisfacción', subtitulo: 'Tu opinión nos importa', leido: false }
       ],
       accesosRapidos: [
         { icono: 'fa-address-book',    titulo: 'Directorio de empleados', url: '' },
@@ -996,22 +996,22 @@
       cumpleanos: [
         { nombre: 'María López',      fecha: '23 de mayo', iniciales: 'ML', color: '#F472B6' },
         { nombre: 'Carlos Hernández', fecha: '27 de mayo', iniciales: 'CH', color: '#60A5FA' },
-        { nombre: 'Laura Martínez',   fecha: '31 de mayo', iniciales: 'LM', color: '#A78BFA' }
+        { nombre: 'Laura Martínez',   fecha: '31 de mayo', iniciales: 'LM', color: '#818CF8' }
       ]
     };
 
     // Paleta alternando cálido/frío para que gajos adyacentes siempre contrasten entre sí.
-    // Paleta: gradiente completo de morados/violetas. Sin cianes.
-    // De índigo profundo a violeta claro/lavanda — 8 tonos distintos.
+    // Paleta: predominio azul + 3 índigos distintos intercalados. Sin cianes.
+    // Los 3 morados están separados y son visualmente diferentes (deep/medium/light).
     const PALETTE = [
-      '#4338CA',  // 1. indigo-700 (profundo)
-      '#4F46E5',  // 2. indigo-600
-      '#6366F1',  // 3. indigo-500
-      '#7C3AED',  // 4. violet-600
-      '#8B5CF6',  // 5. violet-500
-      '#818CF8',  // 6. indigo-400
-      '#A78BFA',  // 7. violet-400
-      '#C4B5FD'   // 8. violet-300 (lavanda claro)
+      '#1E40AF',  // 1. blue-800 (profundo)
+      '#4F46E5',  // 2. indigo-600 (morado deep)
+      '#2563EB',  // 3. blue-600
+      '#6366F1',  // 4. indigo-500 (morado medio)
+      '#3B82F6',  // 5. blue-500 (marca)
+      '#818CF8',  // 6. indigo-400 (morado claro)
+      '#60A5FA',  // 7. blue-400
+      '#93C5FD'   // 8. blue-300 (más claro)
     ];
 
     function getIcono(titulo) {
@@ -1493,10 +1493,10 @@
       const ancho = window.innerWidth;
       const N = ancho < 768 ? 30 : ancho < 1200 ? 50 : 75;
       const sizes = ['p-sm', 'p-sm', 'p-md', 'p-md', 'p-md', 'p-lg', 'p-lg', 'p-xl'];
-      // Colores: paleta de morados + blanco (blanco con peso para mantener limpieza)
+      // Colores: paleta azul/morado del dial + blanco (blanco con peso para mantener limpieza)
       const PARTICLE_COLORS = [
-        '#4338CA', '#4F46E5', '#6366F1', '#7C3AED',
-        '#8B5CF6', '#818CF8', '#A78BFA', '#C4B5FD',
+        '#1E40AF', '#4F46E5', '#2563EB', '#6366F1',
+        '#3B82F6', '#818CF8', '#60A5FA', '#93C5FD',
         '#FFFFFF', '#FFFFFF', '#FFFFFF'
       ];
       for (let i = 0; i < N; i++) {
