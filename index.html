@@ -55,9 +55,8 @@
     body {
       font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
       background:
-        radial-gradient(ellipse 90% 60% at 50% -10%, rgba(30, 58, 138, 0.22), transparent 65%),
+        radial-gradient(ellipse 90% 50% at 50% 0%, rgba(30, 58, 138, 0.14), transparent 60%),
         #06070F;
-      background-attachment: fixed;
       color: var(--text-primary);
     }
 
@@ -99,11 +98,28 @@
       align-items: center;
       justify-content: center;
       opacity: 1;
-      transition: opacity 0.6s ease-out;
+      transition: opacity 0.9s ease-out;
     }
     #splash-screen.fade-out {
       opacity: 0;
       pointer-events: none;
+    }
+
+    /* ━━━ CROSSFADE: app oculta hasta que splash empiece a apagarse ━━━ */
+    /* Antes de .app-ready, los elementos principales están en opacidad 0.
+       Cuando se añade .app-ready, transicionan a 1 a la par del fade-out del splash. */
+    body:not(.app-ready) .topbar,
+    body:not(.app-ready) .app-grid,
+    body:not(.app-ready) #particles {
+      opacity: 0;
+    }
+    .topbar, .app-grid, #particles {
+      transition: opacity 0.9s ease-out;
+    }
+    body.app-ready .topbar,
+    body.app-ready .app-grid,
+    body.app-ready #particles {
+      opacity: 1;
     }
     .splash-content {
       display: flex;
@@ -564,7 +580,7 @@
       transition: fill 0.35s ease, opacity 0.35s ease;
       cursor: pointer;
       animation: rouletteSlice 7s ease-in-out infinite;
-      animation-delay: calc(var(--idx, 0) * 0.875s);
+      animation-delay: calc(var(--idx, 0) * 7s / var(--total, 8));
     }
     @keyframes rouletteSlice {
       0%, 8%, 100% { filter: brightness(1) saturate(1); }
@@ -699,6 +715,75 @@
     }
     #toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
     #toast i { color: #F59E0B; font-size: 18px; }
+
+    /* ━━━ Banner de actualización (pill flotante abajo) ━━━ */
+    .update-banner {
+      position: fixed;
+      bottom: 28px; left: 50%;
+      transform: translateX(-50%) translateY(0);
+      background: linear-gradient(95deg, #4F46E5 0%, #3B82F6 100%);
+      color: white;
+      padding: 12px 14px 12px 18px;
+      border-radius: 999px;
+      display: flex; align-items: center; gap: 12px;
+      font-size: 13px; font-weight: 500;
+      box-shadow:
+        0 12px 36px rgba(79, 70, 229, 0.45),
+        0 0 0 1px rgba(255,255,255,0.1),
+        0 0 32px rgba(99, 102, 241, 0.25);
+      z-index: 1500;
+      max-width: calc(100vw - 32px);
+      opacity: 1;
+      transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.35s ease;
+    }
+    .update-banner.hidden {
+      transform: translateX(-50%) translateY(180%);
+      opacity: 0;
+      pointer-events: none;
+    }
+    .update-banner-icon {
+      width: 26px; height: 26px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.18);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .update-banner-icon i { font-size: 11px; color: white; }
+    .update-banner-text {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .update-banner-btn {
+      background: white;
+      color: #4F46E5;
+      border: none;
+      padding: 7px 16px;
+      border-radius: 999px;
+      font-weight: 700; font-size: 12px;
+      cursor: pointer;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+      flex-shrink: 0;
+      font-family: inherit;
+    }
+    .update-banner-btn:hover { transform: scale(1.06); box-shadow: 0 4px 12px rgba(0,0,0,0.2); }
+    .update-banner-btn:active { transform: scale(0.97); }
+    .update-banner-close {
+      background: transparent;
+      color: rgba(255,255,255,0.65);
+      border: none;
+      cursor: pointer;
+      padding: 4px 8px;
+      font-size: 13px;
+      transition: color 0.2s ease;
+      flex-shrink: 0;
+    }
+    .update-banner-close:hover { color: white; }
+    @media (max-width: 480px) {
+      .update-banner { font-size: 12px; padding: 10px 12px 10px 14px; bottom: 20px; gap: 10px; }
+      .update-banner-btn { padding: 6px 12px; font-size: 11px; }
+      .update-banner-text { font-size: 12px; }
+    }
 
     /* ━━━ Modal ━━━ */
     .modal-backdrop {
@@ -919,12 +1004,26 @@
         background-image: linear-gradient(155deg, rgba(255,255,255,0.10) 0%, rgba(0,0,0,0.28) 100%);
         border-radius: 4px;
         opacity: 0;
-        animation: bubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        animation:
+          bubbleIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+          rouletteBubble 7s ease-in-out infinite;
+        animation-delay:
+          calc(var(--idx, 0) * 0.05s),
+          calc(1s + (var(--idx, 0) * 7s / var(--total, 8)));
         transition: transform 0.15s, filter 0.15s;
       }
       @keyframes bubbleIn {
         from { opacity: 0; transform: translateY(8px) scale(0.96); }
         to   { opacity: 1; transform: translateY(0) scale(1); }
+      }
+      @keyframes rouletteBubble {
+        0%, 8%, 100% { filter: brightness(1) saturate(1); }
+        3%           { filter: brightness(1.22) saturate(1.12); }
+      }
+      /* Pausar ruleta si el usuario toca/hace hover */
+      .bubbles-grid:hover .bubble-wrap,
+      .bubble-wrap:active {
+        animation-play-state: paused, paused;
       }
       .bubble-wrap:active { transform: scale(0.96); filter: brightness(1.1); }
       .bubble {
@@ -996,7 +1095,7 @@
       </div>
       <div class="topbar-text">
         <h1>Electronics México</h1>
-        <p>Intranet corporativa <span class="ver">v2.1.3</span></p>
+        <p>Intranet corporativa <span class="ver">v2.1.8</span></p>
       </div>
     </div>
     <div class="topbar-title">
@@ -1032,6 +1131,14 @@
     <span id="toast-msg">Aún no hay datos para este módulo</span>
   </div>
 
+  <!-- ━━━ BANNER DE ACTUALIZACIÓN — visible cuando hay nueva versión ━━━ -->
+  <div class="update-banner hidden" id="update-banner" role="status" aria-live="polite">
+    <div class="update-banner-icon"><i class="fas fa-arrow-up"></i></div>
+    <span class="update-banner-text">Hay una versión nueva disponible</span>
+    <button class="update-banner-btn" onclick="aplicarActualizacion()">Actualizar</button>
+    <button class="update-banner-close" onclick="ocultarBannerUpdate()" aria-label="Cerrar"><i class="fas fa-times"></i></button>
+  </div>
+
   <div class="modal-backdrop" id="modal-about" onclick="if(event.target===this)cerrarAcercaDe()">
     <div class="modal">
       <h3><i class="fas fa-circle-info"></i> Acerca del Portal</h3>
@@ -1045,7 +1152,10 @@
   <script>
     const SHEET_ID = '1HhQm5iTFMc9RQdbWH1ZfimREKIN3GWJkfrjUfpUgxD4';
     function csvUrl(sheetName) {
-      return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}`;
+      // El endpoint gviz de Google cachea la respuesta CSV en su CDN durante varios minutos,
+      // sin importar los headers cache-control. Agregamos un timestamp único a cada petición
+      // para que Google la trate como una URL distinta y regenere el CSV en vivo.
+      return `https://docs.google.com/spreadsheets/d/${SHEET_ID}/gviz/tq?tqx=out:csv&sheet=${encodeURIComponent(sheetName)}&_=${Date.now()}`;
     }
 
     const FALLBACK_HUB = [
@@ -1096,6 +1206,29 @@
       '#4F46E5',  // 7. indigo-600
       '#4338CA'   // 8. indigo-700 (cierra el loop, profundo)
     ];
+
+    // Interpola dos colores hex por un factor 0-1.
+    function lerpHex(a, b, t) {
+      const c1 = parseInt(a.slice(1), 16);
+      const c2 = parseInt(b.slice(1), 16);
+      const r = Math.round(((c1 >> 16) & 0xff) * (1 - t) + ((c2 >> 16) & 0xff) * t);
+      const g = Math.round(((c1 >> 8)  & 0xff) * (1 - t) + ((c2 >> 8)  & 0xff) * t);
+      const b_= Math.round(( c1        & 0xff) * (1 - t) + ( c2        & 0xff) * t);
+      return '#' + [r, g, b_].map(v => v.toString(16).padStart(2, '0')).join('').toUpperCase();
+    }
+
+    // Devuelve el color para el módulo i dentro de un total de N módulos,
+    // muestreando uniformemente a lo largo del gradiente PALETTE. Si N <= 8
+    // devuelve los colores originales; si N > 8 interpola entre anclajes.
+    function colorParaIndice(i, total) {
+      if (total <= 1) return PALETTE[0];
+      const pos = (i / (total - 1)) * (PALETTE.length - 1);
+      const idx1 = Math.floor(pos);
+      const idx2 = Math.min(idx1 + 1, PALETTE.length - 1);
+      const frac = pos - idx1;
+      if (frac === 0) return PALETTE[idx1];
+      return lerpHex(PALETTE[idx1], PALETTE[idx2], frac);
+    }
 
     function getIcono(titulo) {
       const t = (titulo || '').toLowerCase();
@@ -1162,7 +1295,7 @@
     async function cargarDatos() {
       setEstadoSheet('loading');
       try {
-        const res = await fetch(csvUrl('HUB'), { cache: 'no-store' });
+        const res = await fetch(csvUrl('HUB'), { cache: 'reload' });
         if (!res.ok) throw new Error('HTTP ' + res.status);
         const csv = await res.text();
         const items = csvAObjetos(csv, ['titulo', 'descripcion', 'url']);
@@ -1204,11 +1337,12 @@
       const svg = document.createElementNS(svgNS, 'svg');
       svg.setAttribute('class', 'dial-svg');
       svg.setAttribute('viewBox', `0 0 ${VB} ${VB}`);
+      svg.style.setProperty('--total', N);
 
       // ━━━ DEFS: gradiente radial per-slice (tinte de su color de acento en el borde exterior) ━━━
       const defs = document.createElementNS(svgNS, 'defs');
       for (let i = 0; i < N; i++) {
-        const color = PALETTE[i % PALETTE.length];
+        const color = colorParaIndice(i, N);
         const grad = document.createElementNS(svgNS, 'radialGradient');
         grad.setAttribute('id', `grad-slice-${i}`);
         grad.setAttribute('gradientUnits', 'userSpaceOnUse');
@@ -1250,7 +1384,7 @@
       // ━━━ SLICES (con gradiente + accent sutil que se intensifica en hover) ━━━
       const sliceCells = [];
       for (let i = 0; i < N; i++) {
-        const color = PALETTE[i % PALETTE.length];
+        const color = colorParaIndice(i, N);
         const a1 = (i * 360) / N, a2 = ((i + 1) * 360) / N;
         const g = document.createElementNS(svgNS, 'g');
         g.setAttribute('class', 'slice-cell');
@@ -1295,7 +1429,7 @@
       // ━━━ Cards de cada slice (icono + texto, fuera del SVG) ━━━
       const sliceContents = [];
       for (let i = 0; i < N; i++) {
-        const color = PALETTE[i % PALETTE.length];
+        const color = colorParaIndice(i, N);
         const ang = ((i * 360) / N) + (360 / N) / 2;
         const rad = (ang - 90) * Math.PI / 180;
         const cardR = (innerR + outerR) / 2;  // 207.5 — centro exacto del gajo entre logo y perímetro
@@ -1378,6 +1512,7 @@
     }
 
     function renderizarMovil(cont, items) {
+      const N = items.length;
       const section = document.createElement('section');
       section.className = 'modules-section';
       section.innerHTML = `
@@ -1388,13 +1523,14 @@
       `;
       const wrap = document.createElement('div');
       wrap.className = 'bubbles-grid';
+      wrap.style.setProperty('--total', N);
       items.forEach((it, i) => {
-        const color = PALETTE[i % PALETTE.length];
+        const color = colorParaIndice(i, N);
         const a = document.createElement('a');
         a.href = '#';
         a.className = 'bubble-wrap';
         a.style.setProperty('--mod-color', color);
-        a.style.animationDelay = (i * 0.05) + 's';
+        a.style.setProperty('--idx', i);
         a.innerHTML = `
           <div class="bubble">
             <i class="fas ${getIcono(it.titulo)}"></i>
@@ -1574,11 +1710,13 @@
     (function gestionarSplash() {
       const splash = document.getElementById('splash-screen');
       if (!splash) return;
-      // Tiempo total visible: ~2.5s (0.15s delay + 0.7s fade-in + ~1.65s display) + 0.6s fade-out
+      // Crossfade: splash fade-out (0.9s) + app fade-in (0.9s) corren simultáneos.
+      // Timing total: 2.3s sólido + 0.9s crossfade = ~3.2s
       setTimeout(() => {
-        splash.classList.add('fade-out');
-        setTimeout(() => splash.remove(), 700);
-      }, 2500);
+        splash.classList.add('fade-out');           // splash opacity 1 → 0
+        document.body.classList.add('app-ready');   // app opacity 0 → 1 (simultáneo)
+        setTimeout(() => splash.remove(), 950);     // limpiar del DOM tras la transición
+      }, 2300);
     })();
 
     /* ━━━ Partículas (60 en desktop, variadas) ━━━ */
@@ -1684,22 +1822,66 @@
     cargarDatos();
     renderSidebars();
 
+    // ━━━ ACTUALIZACIÓN DE LA APP — banner + SW update flow ━━━
+    let swEsperando = null;
+    let recargandoPorUpdate = false;
+
+    function mostrarBannerUpdate() {
+      const b = document.getElementById('update-banner');
+      if (b) b.classList.remove('hidden');
+    }
+    function ocultarBannerUpdate() {
+      const b = document.getElementById('update-banner');
+      if (b) b.classList.add('hidden');
+    }
+    function aplicarActualizacion() {
+      if (!swEsperando) {
+        // Fallback: si no hay SW esperando (por alguna razón), simplemente recargar
+        window.location.reload();
+        return;
+      }
+      // Pedirle al SW que se active. Al cambiar el controller, se dispara el reload.
+      swEsperando.postMessage('skipWaiting');
+    }
+
     if ('serviceWorker' in navigator) {
       window.addEventListener('load', () => {
         navigator.serviceWorker.register('service-worker.js')
           .then((reg) => {
             console.log('✅ SW registrado:', reg.scope);
+
+            // Caso A: ya hay un SW esperando al cargar la página (raro pero pasa
+            // cuando dejaste la pestaña abierta mucho tiempo)
+            if (reg.waiting && navigator.serviceWorker.controller) {
+              swEsperando = reg.waiting;
+              mostrarBannerUpdate();
+            }
+
+            // Caso B: se detecta actualización mientras la app está abierta
             reg.addEventListener('updatefound', () => {
               const nuevo = reg.installing;
               if (!nuevo) return;
               nuevo.addEventListener('statechange', () => {
                 if (nuevo.state === 'installed' && navigator.serviceWorker.controller) {
-                  mostrarToast('Hay una nueva versión disponible. Refresca para actualizar.');
+                  // Hay una versión previa controlando + una nueva ya instalada = update disponible
+                  swEsperando = nuevo;
+                  mostrarBannerUpdate();
                 }
               });
             });
+
+            // Chequear cada hora si hay nueva versión (para usuarios con la app
+            // abierta mucho tiempo, ej. una tab del navegador todo el día)
+            setInterval(() => { reg.update().catch(() => {}); }, 60 * 60 * 1000);
           })
           .catch((err) => console.warn('⚠️ SW no se pudo registrar:', err));
+
+        // Cuando el SW activo cambia (después de aplicar la actualización), recargar
+        navigator.serviceWorker.addEventListener('controllerchange', () => {
+          if (recargandoPorUpdate) return;
+          recargandoPorUpdate = true;
+          window.location.reload();
+        });
       });
     }
   </script>
