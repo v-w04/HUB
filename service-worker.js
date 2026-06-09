@@ -13,7 +13,7 @@
 
 // IMPORTANTE: cambia esta versión cada vez que actualices index.html
 // para forzar a los usuarios a descargar la nueva versión.
-const CACHE_VERSION = 'v2.1.3';
+const CACHE_VERSION = 'v2.1.8';
 const CACHE_NAME = `hub-rh-${CACHE_VERSION}`;
 
 // Archivos que se precachean en la instalación
@@ -50,7 +50,8 @@ self.addEventListener('install', (event) => {
       })
       .then(() => {
         console.log('[SW] App shell cacheado ✓');
-        return self.skipWaiting();  // Activar inmediatamente la nueva versión
+        // NO skipWaiting automático — esperamos a que el usuario confirme la actualización
+        // desde el banner. El cliente enviará el mensaje 'skipWaiting' cuando esté listo.
       })
   );
 });
@@ -80,13 +81,20 @@ self.addEventListener('fetch', (event) => {
   // Solo cacheamos GETs
   if (req.method !== 'GET') return;
 
-  // ━━━ Google Sheets: SIEMPRE red (datos frescos) ━━━
+  // ━━━ Google Sheets: SIEMPRE red, ignorando cualquier caché HTTP ━━━
   if (url.hostname === 'docs.google.com' ||
       url.hostname.endsWith('.googleusercontent.com') ||
       url.hostname.endsWith('.googleapis.com')) {
     event.respondWith(
-      fetch(req).catch(() => {
-        // Si no hay red, devolver respuesta vacía (el HTML caerá al FALLBACK)
+      // Reconstruimos la request con cache:'no-store' para forzar el bypass
+      // incluso si la request original no lo tenía configurado.
+      fetch(req.url, {
+        method: req.method,
+        headers: req.headers,
+        credentials: req.credentials,
+        mode: req.mode === 'navigate' ? 'cors' : req.mode,
+        cache: 'no-store'
+      }).catch(() => {
         return new Response('', { status: 503, statusText: 'Sheet no disponible offline' });
       })
     );
